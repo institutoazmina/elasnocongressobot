@@ -35,14 +35,17 @@ for pagina in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]:
         dados = response.json()['dados']
         endereco = dados['urlInteiroTeor']
         situacoes = dados['statusProposicao']
+        for situacao in situacoes:
+            tramitacao = situacoes['descricaoTramitacao']
+            status = situacoes['descricaoSituacao']
         proposicao_ementa = proposicao['ementa']
         proposicoes = {'id': proposicao_id, 'tipo': proposicao_tipo, 'ementa': proposicao_ementa}
         if 'mulheres' in proposicao_ementa:
-            texto = f'{proposicao_tipo} {proposicao_numero}/{proposicao_ano} fala sobre mulheres e sofreu alterações em sua tramitação nos últimos 30 dias. Status: {status}. {endereco}'
+            texto = f'{proposicao_tipo} {proposicao_numero}/{proposicao_ano} fala sobre mulheres e sofreu alterações em sua tramitação nos últimos 30 dias. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             textos.append(texto)
             print(texto)
         elif 'mulher' in proposicao_ementa:
-            texto2 = f'{proposicao_tipo} {proposicao_numero}/{proposicao_ano} fala sobre mulheres e sofreu alterações em sua tramitação nos últimos 30 dias: {endereco}'
+            texto2 = f'{proposicao_tipo} {proposicao_numero}/{proposicao_ano} fala sobre mulheres e sofreu alterações em sua tramitação nos últimos 30 dias. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             textos2.append(texto2)
             print(texto2)
         else:
