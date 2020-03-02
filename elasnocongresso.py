@@ -21,7 +21,6 @@ from datetime import datetime, timedelta
 import os
 import json
 import xmltodict
-import tweepy
 import sys
 
 
@@ -891,9 +890,9 @@ def tweeta(dados):
 def main():
 
     # Captura o dia, mês e ano de ontem
-    dia_anterior = (datetime.now() - timedelta(7)).strftime('%d')
-    mes_anterior = (datetime.now() - timedelta(7)).strftime('%m')
-    ano_anterior = (datetime.now() - timedelta(7)).strftime('%Y')
+    dia_anterior = (datetime.now() - timedelta(2)).strftime('%d')
+    mes_anterior = (datetime.now() - timedelta(2)).strftime('%m')
+    ano_anterior = (datetime.now() - timedelta(2)).strftime('%Y')
 
     # Captura o dia, mês e ano de hoje
     now = datetime.now()

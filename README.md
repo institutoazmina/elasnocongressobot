@@ -1,7 +1,6 @@
-@elasnacamara
-Bot: https://twitter.com/elasnacamara
+elasnocongresso.py: https://twitter.com/elasnacamara
 
-Essa aplicação em Python utiliza a API de proposições da Câmara dos Deputados, que retorna as proposições que tiveram alteração de tramitação nos últimos 30 dias ou em intervalo determinado. Ele reconhece os projetos de interesse com uma busca por termos ("mulher", "mulheres", "aborto", "licença maternidade", "estupro", "feminicídio", etc).
+Essa aplicação em Python utiliza a API de proposições da Câmara dos Deputados (e Senado), que retorna as proposições que tiveram alteração de tramitação nos últimos 30 dias ou em intervalo determinado. Ele reconhece os projetos de interesse com uma busca por termos ("mulher", "mulheres", "aborto", "licença maternidade", "estupro", "feminicídio", etc).
 
 API: https://dadosabertos.camara.leg.br/swagger/api.html (Proposições).
 
@@ -21,11 +20,11 @@ Deve exibir: `pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.6)` ou sem
 
 # executando
 
-Para baixar as proposições, basta executar o arquivo `@elasnacamara.py`, o resultado dos tweets será salvo em ./dados/tweets.json
+Para baixar as proposições, basta executar o arquivo `elasnocongresso.py`, o resultado dos tweets será salvo em ./dados/tweets.json, você pode visualizar este arquivo para conferir o contéudo.
 
-Caso esteja tudo OK com o conteudo, você pode deve executar o script `@elasnacamara_enviar_tweets.py` para fazer o envio.
+Caso esteja tudo OK com o conteudo, você pode deve executar o script `enviar_tweets.py` para fazer o envio.
 
-Para executar `@elasnacamara_enviar_tweets.py`, será necessário configurar o arquivo .env com a chave do twitter:
+Para executar `enviar_tweets.py`, será necessário configurar o arquivo .env com a chave do twitter:
 
     $ cp .env.sample .env
 
