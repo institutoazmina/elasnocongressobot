@@ -1,12 +1,22 @@
-elasnocongresso.py: https://twitter.com/elasnacamara
+# Elas no Congresso 
 
-Essa aplicação em Python utiliza a API de proposições da Câmara dos Deputados (e Senado), que retorna as proposições que tiveram alteração de tramitação nos últimos 30 dias ou em intervalo determinado. Ele reconhece os projetos de interesse com uma busca por termos ("mulher", "mulheres", "aborto", "licença maternidade", "estupro", "feminicídio", etc).
+O Elas no Congresso é um projeto da Revista AzMina que usa dados públicos para monitorar avanços e retrocessos nos direitos das mulheres no Congresso Nacional. Ele foi selecionado entre mais de 300 iniciativas, pelo Google News Initiative na América Latina, programa de incentivo ao jornalismo na era digital. O projeto se desdobra nesse robô, em um ranking dos parlamentares de acordo com sua atuação nas temáticas de gênero, e na produção de conteúdos no site da Revista AzMina e em newsletters temáticas. 
 
-API: https://dadosabertos.camara.leg.br/swagger/api.html (Proposições).
+# o robô (https://twitter.com/elasnocongresso)
 
-Os termos para a busca na ementa e a URL com data de início e fim da busca podem ser alterados.
+Essa aplicação em Python utiliza a API de proposições da Câmara dos Deputados e do Senado para monitorar projetos de interesse que tratam sobre direito das mulheres. 
 
-Esse projeto foi elaborado como trabalho de conclusão de curso do MOOC "Introdução à programação: Python para jornalistas", oferecido pelo Centro Knight com o apoio do Google News Lab.
+Primeiro, AzMina selecionou uma lista ampla de palavras-chave frequentemente relacionadas aos direitos das mulheres. O robô busca nas APIs da Câmara dos Deputados e do Senado as roposições que tiveram alteração de tramitação no último dia. Ele reconhece os projetos de interesse com uma busca por termos ("mulher", "mulheres", "aborto", "licença maternidade", "estupro", "feminicídio", etc) nas ementas das proposições.
+
+Por fim, ele publica em uma conta no Twitter os detalhes dessa proposição: a casa legislativa onde ela se encontra, o tipo e número da matéria, o autor, o tema principal, o status atual de tramitação e também o link para o texto do projeto.
+
+# links de referência
+
+Elas no Congresso no Twitter: https://twitter.com/elasnocongresso
+
+API da Câmara dos Deputados: https://dadosabertos.camara.leg.br/swagger/api.html (Proposições).
+
+API do Senado: https://www12.senado.leg.br/dados-abertos/conjuntos?grupo=projetos-e-materias&portal=legislativo
 
 # instalando dependencias
 
@@ -22,7 +32,7 @@ Deve exibir: `pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.6)` ou sem
 
 Para baixar as proposições, basta executar o arquivo `elasnocongresso.py`, o resultado dos tweets será salvo em ./dados/tweets.json, você pode visualizar este arquivo para conferir o contéudo.
 
-Caso esteja tudo OK com o conteudo, você pode deve executar o script `enviar_tweets.py` para fazer o envio.
+Caso esteja tudo OK com o conteudo, você deve executar o script `enviar_tweets.py` para fazer o envio.
 
 Para executar `enviar_tweets.py`, será necessário configurar o arquivo .env com a chave do twitter:
 
