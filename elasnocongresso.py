@@ -67,6 +67,7 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
     # Faz a iteração a partir do número de páginas encontrado
     for pagina in range(1, ultima):
             parametros = {'formato': 'json', 'itens': 100, 'pagina': pagina}
+            print(url)
             resposta = requests.get(url, parametros)
 
     # Captura os dados
@@ -100,7 +101,7 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
         id = row['id']
 
         url = endpoint + id
-        # print(url)
+        print(url)
 
         try:
             r = requests.get(url)
@@ -263,7 +264,7 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
         codigo = row['CodigoMateria']
 
         url = prefixo + codigo
-                # print(url)
+        print(url)
 
         try:
             r = requests.get(url, headers=headers)
@@ -609,7 +610,7 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
         codigo = row['CodigoMateria']
 
         url = prefixo + codigo
-        # print(url)
+        print(url)
 
         try:
             r = requests.get(url, headers=headers)
@@ -890,15 +891,15 @@ def tweeta(dados):
 def main():
 
     # Captura o dia, mês e ano de ontem
-    dia_anterior = (datetime.now() - timedelta(2)).strftime('%d')
-    mes_anterior = (datetime.now() - timedelta(2)).strftime('%m')
-    ano_anterior = (datetime.now() - timedelta(2)).strftime('%Y')
+    dia_anterior = (datetime.now() - timedelta(1)).strftime('%d')
+    mes_anterior = (datetime.now() - timedelta(1)).strftime('%m')
+    ano_anterior = (datetime.now() - timedelta(1)).strftime('%Y')
 
-    # Captura o dia, mês e ano de hoje
+    # Captura o dia, mês e ano de amanha (assim nao preciso mudar o codigo para remover o parametro data_ate)
     now = datetime.now()
-    dia_hoje = (datetime.now() - timedelta(1)).strftime('%d')
-    mes_hoje = (datetime.now() - timedelta(1)).strftime('%m')
-    ano_hoje = (datetime.now() - timedelta(1)).strftime('%Y')
+    dia_hoje = (datetime.now() + timedelta(1)).strftime('%d')
+    mes_hoje = (datetime.now() + timedelta(1)).strftime('%m')
+    ano_hoje = (datetime.now() + timedelta(1)).strftime('%Y')
 
     # Captura proposicoes Camara
     prop_cam = camara(dia_anterior,mes_anterior,ano_anterior,dia_hoje,mes_hoje,ano_hoje)
