@@ -41,3 +41,7 @@ Para executar `enviar_tweets.py`, será necessário configurar o arquivo .env co
 Edite o conteudo do .env com a chave, e então poderá ser possível executar o envio.
 
 A cada envio de tweet, um arquivo cujo nome é o hash do tweet, ficará salvo em ./dados/tweets-enviados/$HASH, dentro dentro deste arquivo, tem informações sobre o tweet.
+
+# créditos
+
+A licença é creative commons e ele pode ser usado e replicado à vontade, mesmo sem pedir permissão e sem citação de fonte (mas se você utilizar e for uma pessoa legal e transparente, pode dar crédito para a Revista AzMina).
