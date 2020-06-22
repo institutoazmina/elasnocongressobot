@@ -71,8 +71,8 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
             resposta = requests.get(url, parametros)
 
     # Captura os dados
-    for vez in resposta.json()['dados']:
-            dicionario = {"id": str(vez['id']).strip(),
+            for vez in resposta.json()['dados']:
+                dicionario = {"id": str(vez['id']).strip(),
                                                     "uri": str(vez['uri']).strip(),
                                                     "siglaTipo": str(vez['siglaTipo']).strip(),
                                                     "codTipo": str(vez['codTipo']).strip(),
@@ -80,7 +80,7 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
                                                     "ano": str(vez['ano']).strip(),
                                                     "ementa": str(vez['ementa']).strip()
                                                     }
-            proposicoes.append(dicionario)
+                proposicoes.append(dicionario)
 
     df_proposicoes_api = pd.DataFrame(proposicoes)
     # df_proposicoes_api.info()
