@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  elasnacamera:
+    build: ./
+    container_name: elasnacamera
+    volumes:
+      - ./:/usr/src/app/
+    networks:
+      - elasnacamera
+    logging:
+      driver: "json-file"
+      options:
+        max-file: '100'
+        max-size: 1m
+    restart: unless-stopped
+
+networks:
+  elasnacamera:
+    name: elasnacamera_network
