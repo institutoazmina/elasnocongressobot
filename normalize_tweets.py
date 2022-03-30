@@ -24,8 +24,6 @@ def repNameV2(m):
 
     firstName = names[0]
     if (len(names) > 1):
-        print(len(firstName))
-        print ("\n")
         if (len(firstName) > 20):
             nameParts = firstName.split(' ')
             firstName = ' '.join(nameParts[0:3]) + '…'
@@ -49,14 +47,8 @@ def truncLongName(text):
     if (len(newText) > 280):
         newText = re.sub(r"(de autoria de )(.*)(, fala sobre)", repNameV2, text)
 
-    # remove all authors
-    if (len(newText) > 280):
-        newText = re.sub(r", de autoria de .*, fala sobre", ', fala sobre', text)
-
     # if still too long, remove a lot of info
     if (len(newText) > 280):
         newText = re.sub(r"de autoria de.*sofreu alterações em sua tramitação\. ", '', text)
 
     return newText
-
-print(norm("CÂMARA: PL 2753/2020, de autoria de Erika santos de souza Patrus Ananias de foo barPatrus Ananias de foo barPatrus Ananias de foo bar, fala sobre crianças e sofreu alterações em sua tramitação. Tramitação: Devolução ao Relator. Situação: Aguardando Parecer. http://www.camara.gov.br/proposicoesWeb/prop_mostrarintegra?codteor=1895093 "))
