@@ -39,6 +39,10 @@ class TestSum(unittest.TestCase):
             'SENADO: PL 01360/2021, de autoria de Foo, fala sobre violência doméstica e sofreu alterações em sua tramitação. Tramitação: Em Progress. Situação: Xpto. http://legis.senado.leg.br/sdleg-getter/documento?dm=8993187'),
             'SENADO: PL 01360/2021, de autoria de Foo, fala sobre violência doméstica e sofreu alterações em sua tramitação. Tramitação: Em Progress. Situação: Xpto. http://legis.senado.leg.br/sdleg-getter/documento?dm=8993187')
 
+        self.assertEqual(n.norm(
+            'SENADO: PL 01360/2021, de autoria de None, fala sobre violência doméstica e sofreu alterações em sua tramitação. Tramitação: Em Progress. Situação: Xpto. http://legis.senado.leg.br/sdleg-getter/documento?dm=8993187'),
+            'SENADO: PL 01360/2021 fala sobre violência doméstica e sofreu alterações em sua tramitação. Tramitação: Em Progress. Situação: Xpto. http://legis.senado.leg.br/sdleg-getter/documento?dm=8993187')
+
 
 if __name__ == '__main__':
     unittest.main()
