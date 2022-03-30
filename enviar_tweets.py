@@ -4,6 +4,7 @@ import json     # escrever JSON
 import os.path  # paths do sistema
 import os       # ler variaveis de ambiente
 import time     # sleep
+import normalize_tweets
 from dotenv import load_dotenv # ler variaveis de ambiente do arquivo .env
 
 load_dotenv()
@@ -52,7 +53,7 @@ for tweet in tweets:
         continue
 
     print ("tweetando '", text, "'...")
-    response = api.update_status(text)
+    response = api.update_status(normalize_tweets.norm(text))
     with open(fileName, 'w') as outfile:
         json.dump(response._json, outfile)
 
