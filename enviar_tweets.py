@@ -39,26 +39,48 @@ if not os.path.exists(dirName):
 with open('dados/tweets.json') as f:
   tweets = json.load(f)
 
-auth = tweepy.OAuthHandler(os.getenv("CONSUMER_KEY"), os.getenv("CONSUMER_SECRET"))
-auth.set_access_token(os.getenv("ACCESS_KEY"), os.getenv("ACCESS_SECRET"))
-api = tweepy.API(auth)
+bearer_token = os.getenv("BEARER_TOKEN")
+
+def post_tweet(text, bearer_token):
+    headers = {
+        "Authorization": f"Bearer {bearer_token}",
+        "Content-Type": "application/json"
+    }
+
+    # Avoid exceeding the Tweet length by trimming the message
+    if len(text) > 280:
+        text = text[:277] + "..."
+
+    payload = json.dumps({"text": text})
+
+    response = requests.post(
+        "https://api.twitter.com/2/tweets",
+        headers=headers,
+        data=payload)
+
+    return response
 
 for tweet in tweets:
     text = tweet['tweet']
     result = hashlib.md5(text.encode())
-    fileName = f'{dirName}/{result.hexdigest()}'
+    file_name = f'{REQUIRED_DIRS[1]}/{result.hexdigest()}'
 
-    if os.path.exists( fileName ):
-        print ("tweet '", text, "' ja foi tweetado")
+    if os.path.exists(file_name):
+        print(f"Tweet '{text}' has been tweeted before")
         continue
 
-    print ("tweetando '", text, "'...")
-    response = api.update_status(normalize_tweets.norm(text))
-    with open(fileName, 'w') as outfile:
-        json.dump(response._json, outfile)
+    print(f"Tweeting: '{text}'...")
+    response = post_tweet(text, bearer_token)
+
+    if response.status_code != 200:
+        print(f"Failed to send tweet: '{text}'")
+        print(response.json())
+        continue
+
+    with open(file_name, 'w') as outfile:
+        json.dump(response.json(), outfile)
 
     if bool(os.getenv("RANDOM_SLEEP_BETWEEN_TWEETS")):
-        time.sleep(300) # espera 5 minutos
+        time.sleep(300)  # wait for 5 minutes
 
-
-print ("Todos tweets enviados com sucesso!")
+print("All tweets sent successfully!")
