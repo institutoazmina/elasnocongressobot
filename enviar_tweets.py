@@ -41,6 +41,35 @@ with open('dados/tweets.json') as f:
 
 bearer_token = os.getenv("BEARER_TOKEN")
 
+def refresh_bearer_token(consumer_key, consumer_secret, refresh_token):
+    key_secret = '{}:{}'.format(consumer_key, consumer_secret).encode('ascii')
+    b64_encoded_key = base64.b64encode(key_secret)
+    b64_encoded_key = b64_encoded_key.decode('ascii')
+
+    auth_url = 'https://api.twitter.com/2/oauth2/token'
+
+    auth_headers = {
+        'Authorization': 'Basic {}'.format(b64_encoded_key),
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    }
+
+    auth_data = {
+        'grant_type': 'refresh_token',
+        'client_id': consumer_key,
+        'refresh_token': 
+    }
+
+    auth_resp = requests.post(auth_url, headers=auth_headers, data=auth_data)
+
+    if auth_resp.status_code != 200:
+        raise Exception("Failed to refresh token: {}".format(auth_resp.text))
+    else:
+        token_type = auth_resp.json()['token_type']
+        if token_type != 'bearer':
+            raise Exception("Unexpected token type: {}".format(token_type))
+        
+    return auth_resp.json()['access_token']
+
 def post_tweet(text, bearer_token):
     headers = {
         "Authorization": f"Bearer {bearer_token}",
