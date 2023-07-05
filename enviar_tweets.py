@@ -7,7 +7,7 @@ import time     # sleep
 import normalize_tweets
 import base64
 import time
-import os
+import requests
 from dotenv import load_dotenv # ler variaveis de ambiente do arquivo .env
 
 load_dotenv()
@@ -42,8 +42,6 @@ if not os.path.exists(dirName):
 with open('dados/tweets.json') as f:
   tweets = json.load(f)
 
-bearer_token = os.getenv("BEARER_TOKEN")
-
 def refresh_bearer_token(consumer_key, consumer_secret, refresh_token):
     json_file_path = 'refresh-token-response.json'
 
@@ -54,11 +52,13 @@ def refresh_bearer_token(consumer_key, consumer_secret, refresh_token):
             
         # Get the current epoch time
         current_epoch = int(time.time())
+
+        refresh_token = auth_resp_json['refresh_token']
         
         # Check if the token needs to be refreshed
         if 'expires_in' in auth_resp_json and 'current_epoch' in auth_resp_json:
             expires_in = auth_resp_json['expires_in'] + auth_resp_json['current_epoch']
-            if current_epoch >= expires_in:
+            if current_epoch - expires_in >= current_epoch:
                 print("The token needs to be refreshed")
             else:
                 print("The token does not need to be refreshed")
@@ -126,6 +126,7 @@ for tweet in tweets:
         print(f"Tweet '{text}' has been tweeted before")
         continue
 
+    bearer_token = refresh_bearer_token(os.getenv("CONSUMER_KEY"), os.getenv("CONSUMER_SECRET"), os.getenv("REFRESH_TOKEN"))
     print(f"Tweeting: '{text}'...")
     response = post_tweet(text, bearer_token)
 
