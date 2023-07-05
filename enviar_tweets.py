@@ -6,7 +6,8 @@ import os       # ler variaveis de ambiente
 import time     # sleep
 import normalize_tweets
 import base64
-import json
+import time
+import os
 from dotenv import load_dotenv # ler variaveis de ambiente do arquivo .env
 
 load_dotenv()
@@ -44,6 +45,25 @@ with open('dados/tweets.json') as f:
 bearer_token = os.getenv("BEARER_TOKEN")
 
 def refresh_bearer_token(consumer_key, consumer_secret, refresh_token):
+    json_file_path = 'refresh-token-response.json'
+
+    # If the JSON file exists, open and read it
+    if os.path.exists(json_file_path):
+        with open(json_file_path, 'r') as f:
+            auth_resp_json = json.load(f)
+            
+        # Get the current epoch time
+        current_epoch = int(time.time())
+        
+        # Check if the token needs to be refreshed
+        if 'expires_in' in auth_resp_json and 'current_epoch' in auth_resp_json:
+            expires_in = auth_resp_json['expires_in'] + auth_resp_json['current_epoch']
+            if current_epoch >= expires_in:
+                print("The token needs to be refreshed")
+            else:
+                print("The token does not need to be refreshed")
+                return auth_resp_json['access_token']
+
     key_secret = '{}:{}'.format(consumer_key, consumer_secret).encode('ascii')
     b64_encoded_key = base64.b64encode(key_secret)
     b64_encoded_key = b64_encoded_key.decode('ascii')
@@ -62,6 +82,9 @@ def refresh_bearer_token(consumer_key, consumer_secret, refresh_token):
     }
 
     auth_resp = requests.post(auth_url, headers=auth_headers, data=auth_data)
+
+    current_epoch = int(time.time())
+    auth_resp_json['current_epoch'] = current_epoch
 
     if auth_resp.status_code != 200:
         raise Exception("Failed to refresh token: {}".format(auth_resp.text))
