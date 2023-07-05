@@ -5,6 +5,8 @@ import os.path  # paths do sistema
 import os       # ler variaveis de ambiente
 import time     # sleep
 import normalize_tweets
+import base64
+import json
 from dotenv import load_dotenv # ler variaveis de ambiente do arquivo .env
 
 load_dotenv()
@@ -56,7 +58,7 @@ def refresh_bearer_token(consumer_key, consumer_secret, refresh_token):
     auth_data = {
         'grant_type': 'refresh_token',
         'client_id': consumer_key,
-        'refresh_token': 
+        'refresh_token': refresh_token
     }
 
     auth_resp = requests.post(auth_url, headers=auth_headers, data=auth_data)
@@ -67,6 +69,9 @@ def refresh_bearer_token(consumer_key, consumer_secret, refresh_token):
         token_type = auth_resp.json()['token_type']
         if token_type != 'bearer':
             raise Exception("Unexpected token type: {}".format(token_type))
+
+        with open('refresh-token-response.json', 'w') as f:
+        json.dump(auth_resp.json(), f)
         
     return auth_resp.json()['access_token']
 
