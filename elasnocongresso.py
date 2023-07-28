@@ -821,7 +821,7 @@ def frases(dados, origem):
         sentencas = {}
 
         if 'jornada de trabalho' in proposicao_ementa and 'mulheres' in proposicao_ementa:
-            sentencas['texto3/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre jornada de trabalho para mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre jornada de trabalho para mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -832,7 +832,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'jornada de trabalho' in proposicao_ementa and 'mulher' in proposicao_ementa:
-            sentencas['texto4/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre jornada de trabalho para mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre jornada de trabalho para mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -843,7 +843,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'violência contra a mulher' in proposicao_ementa:
-            sentencas['texto5/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência contra a mulher e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência contra a mulher e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -854,7 +854,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'violência doméstica' in proposicao_ementa:
-            sentencas['texto5_1/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência doméstica e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência doméstica e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -865,7 +865,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'aborto' in proposicao_ementa:
-            sentencas['texto6/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre aborto e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre aborto e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -876,7 +876,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'violência sexual' in proposicao_ementa:
-            sentencas['texto7/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -887,7 +887,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'feminicídio' in proposicao_ementa:
-            sentencas['texto8/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre feminicídio e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre feminicídio e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -898,7 +898,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'assédio sexual' in proposicao_ementa:
-            sentencas['texto9/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre assédio sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre assédio sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -909,7 +909,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'estupro' in proposicao_ementa:
-            sentencas['texto10/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre estupro e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre estupro e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -920,7 +920,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'licença maternidade' in proposicao_ementa:
-            sentencas['texto11/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre licença maternidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre licença maternidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -931,7 +931,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'mulheres' in proposicao_ementa or 'mulher' in proposicao_ementa or 'feminino' in proposicao_ementa:
-            sentencas['texto12/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -942,7 +942,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'trabalho doméstico' in proposicao_ementa:
-            sentencas['texto13/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre trabalho doméstico e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre trabalho doméstico e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -953,7 +953,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'maria da penha' in proposicao_ementa:
-            sentencas['texto14/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre Lei Maria da Penha e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre Lei Maria da Penha e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -964,7 +964,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'interrupção da gravidez' in proposicao_ementa or 'interrupção da gestação' in proposicao_ementa or 'interrupção de gestação' in proposicao_ementa or 'interrupção de gravidez' in proposicao_ementa:
-            sentencas['texto15/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre interrupção da gravidez e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre interrupção da gravidez e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -975,7 +975,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'direitos reprodutivos' in proposicao_ementa or 'direito reprodutivo' in proposicao_ementa:
-            sentencas['texto16/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre direitos reprodutivos e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre direitos reprodutivos e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -986,7 +986,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'direitos à vida' in proposicao_ementa or 'direito à vida' in proposicao_ementa:
-            sentencas['texto17/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre direito à vida e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre direito à vida e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -997,7 +997,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'contracepção' in proposicao_ementa or 'contraceptivos' in proposicao_ementa:
-            sentencas['texto18/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre contracepção e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre contracepção e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1008,7 +1008,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'violência obstétrica' in proposicao_ementa:
-            sentencas['texto19/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência obstétrica e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência obstétrica e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1019,7 +1019,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'misoprostol' in proposicao_ementa or 'mifepristone' in proposicao_ementa or 'cytotec' in proposicao_ementa:
-            sentencas['texto20/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre medicamentos abortivos e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre medicamentos abortivos e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1030,7 +1030,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'gestação' in proposicao_ementa or 'gravidez' in proposicao_ementa:
-            sentencas['texto21/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre gravidez e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre gravidez e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1041,7 +1041,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'violência familiar' in proposicao_ementa:
-            sentencas['texto22/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência familiar e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência familiar e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1052,7 +1052,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'morte de mulher' in proposicao_ementa or 'morte de mulheres' in proposicao_ementa:
-            sentencas['texto23/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre morte de mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre morte de mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1063,7 +1063,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'homicídio de mulher' in proposicao_ementa or 'homicídio de mulheres' in proposicao_ementa:
-            sentencas['texto24/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre homicídio de mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre homicídio de mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1074,7 +1074,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'assédio' in proposicao_ementa:
-            sentencas['texto25/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre assédio e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre assédio e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1085,7 +1085,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'estupro de vulnerável' in proposicao_ementa:
-            sentencas['texto26/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre estupro de vulnerável e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre estupro de vulnerável e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1096,7 +1096,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'abuso sexual' in proposicao_ementa:
-            sentencas['texto27/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre abuso sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre abuso sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1107,7 +1107,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'mulher negra' in proposicao_ementa or 'mulheres negras' in proposicao_ementa:
-            sentencas['texto28/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre mulheres negras e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre mulheres negras e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1118,7 +1118,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'maternidade' in proposicao_ementa or 'mãe' in proposicao_ementa:
-            sentencas['texto29/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre maternidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre maternidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1129,7 +1129,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'amamentação' in proposicao_ementa or 'leite materno' in proposicao_ementa:
-            sentencas['texto30/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre amamentação e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre amamentação e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1140,7 +1140,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'feminismo' in proposicao_ementa:
-            sentencas['texto31/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre feminismo e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre feminismo e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1151,7 +1151,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'identidade de gênero' in proposicao_ementa:
-            sentencas['texto32/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre identidade de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre identidade de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1162,7 +1162,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'machismo' in proposicao_ementa:
-            sentencas['texto33/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome},fala sobre machismo e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome},fala sobre machismo e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1173,7 +1173,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'guarda de filhos' in proposicao_ementa or 'guarda dos filhos' in proposicao_ementa:
-            sentencas['texto34/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre guarda dos filhos e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre guarda dos filhos e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1184,7 +1184,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'igualdade de gênero' in proposicao_ementa:
-            sentencas['texto35/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre igualdade de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre igualdade de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1195,7 +1195,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'educação sexual' in proposicao_ementa:
-            sentencas['texto36/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1206,7 +1206,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'ideologia de gênero' in proposicao_ementa:
-            sentencas['texto37/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre ideologia de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre ideologia de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1217,7 +1217,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'transexualidade' in proposicao_ementa or 'transexual' in proposicao_ementa or 'mulher trans' in proposicao_ementa or 'mulheres trans' in proposicao_ementa:
-            sentencas['texto38/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre transexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre transexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1228,7 +1228,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'mudança de sexo' in proposicao_ementa or 'readequação sexual' in proposicao_ementa:
-            sentencas['texto39/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre readequação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre readequação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1239,7 +1239,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'exploração sexual' in proposicao_ementa:
-            sentencas['texto40/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre exploração sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre exploração sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1250,7 +1250,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'prostituição' in proposicao_ementa:
-            sentencas['texto41/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre prostituição e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre prostituição e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1261,7 +1261,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'racismo' in proposicao_ementa and 'mulher' in proposicao_ementa:
-            sentencas['texto42/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre racismo e mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre racismo e mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1272,7 +1272,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'racismo' in proposicao_ementa and 'mulheres' in proposicao_ementa:
-            sentencas['texto43/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre racismo e mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre racismo e mulheres e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1283,7 +1283,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'sexualidade' in proposicao_ementa:
-            sentencas['texto44/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1294,7 +1294,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'sexo' in proposicao_ementa and 'mulher' in proposicao_ementa:
-            sentencas['texto45/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1305,7 +1305,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'sexo' in proposicao_ementa and 'mulheres' in proposicao_ementa:
-            sentencas['texto46/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexualidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1316,7 +1316,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'deus' in proposicao_ementa and 'mulher' in proposicao_ementa:
-            sentencas['texto47/'  + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1327,7 +1327,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'deus' in proposicao_ementa and 'mulheres' in proposicao_ementa:
-            sentencas['texto48/'  + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1338,7 +1338,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'educação religiosa' in proposicao_ementa and 'mulher' in proposicao_ementa:
-            sentencas['texto49/'  + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1349,7 +1349,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'educação religiosa' in proposicao_ementa and 'mulheres' in proposicao_ementa:
-            sentencas['texto50/'  + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1360,7 +1360,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'religião' in proposicao_ementa and 'mulher' in proposicao_ementa:
-            sentencas['texto51/'  + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1371,7 +1371,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'religião' in proposicao_ementa and 'mulheres' in proposicao_ementa:
-            sentencas['texto52/'  + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre religiosidade e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1382,7 +1382,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'violência de gênero' in proposicao_ementa:
-            sentencas['texto53/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre violência de gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1393,7 +1393,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'parto' in proposicao_ementa:
-            sentencas['texto54/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre parto e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre parto e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1404,7 +1404,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'homeschooling' in proposicao_ementa:
-            sentencas['texto55/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação domiciliar e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação domiciliar e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1415,7 +1415,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'educação domiciliar' in proposicao_ementa:
-            sentencas['texto56/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação domiciliar e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação domiciliar e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1426,7 +1426,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'educação infantil' in proposicao_ementa:
-            sentencas['texto57/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação infantil e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação infantil e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1437,7 +1437,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'creches' in proposicao_ementa:
-            sentencas['texto58/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação infantil e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre educação infantil e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1448,7 +1448,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'casamento infantil' in proposicao_ementa:
-            sentencas['texto59/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre casamento infantil e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre casamento infantil e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1459,7 +1459,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'homossexual' in proposicao_ementa:
-            sentencas['texto60/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1470,7 +1470,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'homossexualidade' in proposicao_ementa:
-            sentencas['texto61/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1481,7 +1481,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'homossexualismo' in proposicao_ementa:
-            sentencas['texto62/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1492,7 +1492,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'orientação sexual' in proposicao_ementa:
-            sentencas['texto63/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1503,7 +1503,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'opção sexual' in proposicao_ementa:
-            sentencas['texto64/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre orientação sexual e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1514,7 +1514,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'criança' in proposicao_ementa:
-            sentencas['texto65/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre crianças e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre crianças e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1525,7 +1525,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'sexo biológico' in proposicao_ementa:
-            sentencas['texto66/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexo biológico e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre sexo biológico e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1536,7 +1536,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'gênero' in proposicao_ementa:
-            sentencas['texto67/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre gênero e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
@@ -1547,7 +1547,7 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
         elif 'gestante' in proposicao_ementa:
-            sentencas['texto68/' + str(conta)] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre gravidez e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
+            sentencas['texto'] = f'{casa}: {proposicao_tipo} {proposicao_numero}/{proposicao_ano}, de autoria de {nome}, fala sobre gravidez e sofreu alterações em sua tramitação. Tramitação: {tramitacao}. Situação: {status}. {endereco}'
             sentencas['casa'] = f'{casa}'
             sentencas['proposicao_ementa'] = f'{proposicao_ementa}'
             sentencas['proposicao_tipo'] = f'{proposicao_tipo}'
