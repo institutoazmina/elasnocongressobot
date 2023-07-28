@@ -25,9 +25,13 @@ import sys
 import hashlib
 
 def hash_text(text, algorithm="sha256"):
-    hash_object = hashlib.new(algorithm)
-    hash_object.update(text.encode())
-    return hash_object.hexdigest()
+
+    if isinstance(text, str):
+        hash_object = hashlib.new(algorithm)
+        hash_object.update(text.encode())
+        return hash_object.hexdigest()
+    else:
+        return None
 
 # FUNÇÃO DA CÂMARA DOS DEPUTADOS
 def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoje):
@@ -691,6 +695,102 @@ def mulher(dados, origem):
 # CRIA FRASES
 def frases(dados, origem):
     lista_sentencas = []
+    cols = list(dados)
+    print('====================')
+    print(cols)
+    print('====================')
+
+    ## Camara
+    # ['id',
+    #  'uri',
+    #  'siglaTipo', 
+    #  'codTipo',
+    #  'numero',
+    #  'ano',
+    #  'ementa',
+    #  'dataApresentacao',
+    #  'statusProposicao_dataHora',
+    #  'statusProposicao_siglaOrgao',
+    #  'statusProposicao_descricaoTramitacao',
+    #  'statusProposicao_descricaoSituacao',
+    #  'statusProposicao_despacho',
+    #  'keywords',
+    #  'urlInteiroTeor',
+    #  'uriAutores',
+    #  'autor',
+    #  'ementa_minuscula'
+    # ]
+
+    ## SENADO
+    #  ['CodigoMateria',
+    # 'SiglaCasaIdentificacaoMateria',
+    # 'NomeCasaIdentificacaoMateria',
+    # 'SiglaSubtipoMateria',
+    # 'DescricaoSubtipoMateria',
+    # 'NumeroMateria',
+    # 'AnoMateria',
+    # 'DescricaoObjetivoProcesso',
+    # 'DescricaoIdentificacaoMateria',
+    # 'IndicadorTramitando',
+    # 'EmentaMateria',
+    # 'ExplicacaoEmentaMateria',
+    # 'ApelidoMateria',
+    # 'IndicadorComplementar',
+    # 'DataApresentacao',
+    # 'DataLeitura',
+    # 'SiglaCasaLeitura',
+    # 'NomeCasaLeitura',
+    # 'CodigoNatureza',
+    # 'NomeNatureza',
+    # 'DescricaoNatureza',
+    # 'Codigo_assunto',
+    # 'Descricao_assunto',
+    # 'Codigo_assunto_geral',
+    # 'Descricao_assunto_geral',
+    # 'NomePoderOrigem',
+    # 'SiglaCasaOrigem',
+    # 'NomeCasaOrigem',
+    # 'SiglaCasaIniciadora',
+    # 'NomeCasaIniciadora',
+    # 'NomeAutor',
+    # 'SiglaTipoAutor',
+    # 'DescricaoTipoAutor',
+    # 'UfAutor',
+    # 'NumOrdemAutor',
+    # 'IndicadorOutrosAutores',
+    # 'CodigoParlamentar',
+    # 'CodigoPublicoNaLegAtual',
+    # 'NomeParlamentar',
+    # 'NomeCompletoParlamentar',
+    # 'SexoParlamentar',
+    # 'FormaTratamento',
+    # 'UrlFotoParlamentar',
+    # 'UrlPaginaParlamentar',
+    # 'EmailParlamentar',
+    # 'SiglaPartidoParlamentar',
+    # 'UfParlamentar',
+    # 'NumeroAutuacao',
+    # 'DataSituacao',
+    # 'CodigoSituacao',
+    # 'SiglaSituacao',
+    # 'DescricaoSituacao',
+    # 'DataLocal',
+    # 'CodigoLocal',
+    # 'TipoLocal',
+    # 'SiglaCasaLocal',
+    # 'NomeCasaLocal',
+    # 'SiglaLocal',
+    # 'NomeLocal',
+    # 'url_emendas',
+    # 'url_movimentacoes',
+    # 'url_relatorias',
+    # 'url_texto',
+    # 'url_votacoes_materia',
+    # 'url_votacoes_comissoes',
+    # 'CodigoTexto',
+    # 'UrlTexto',
+    # 'ementa_copia',
+    # 'ementa_minuscula']
 
     conta = 1
     for num, row in dados.iterrows():
@@ -703,7 +803,7 @@ def frases(dados, origem):
                     tramitacao = row['NomeLocal']
                     status = row['DescricaoSituacao']
                     endereco = row['UrlTexto']
-                    nome = row['NomeAutor']
+                    nome = row['NomeAutor'] or row['NomeParlamentar']
                     casa = 'SENADO'
         elif origem == 'camara':
                     proposicao_ementa = row['ementa_minuscula']
@@ -1458,7 +1558,6 @@ def frases(dados, origem):
             sentencas['endereco'] = f'{endereco}'
             sentencas['nome'] = f'{nome}'
 
-        # print(sentencas)
         # Testa se dicionario veio vazio
         res = not bool(sentencas)
         if res == False:
@@ -1501,17 +1600,8 @@ def tweeta(dados):
         GLOBAL_lista_para_tweetar.append(row.to_json())
 
 
-        cols = list(row)
-        for i in cols:
-            print('la')
-            print(i)
-            print('la')
-
     # Itera nas colunas de cada frase
     # for i in columns:
-    #     # print('=============================')
-    #     # print(df[i])
-    #     # print('=============================')
     #     texto = df[i][0]
     #     GLOBAL_lista_para_tweetar.append( { "tweet": f'{texto}' })
 
@@ -1555,7 +1645,7 @@ def main():
 
     # Captura proposicoes Senado
     prop_sen = senado(ano_anterior, mes_anterior, dia_anterior)
-    # prop_sen.to_csv('teste_sen.csv',index=False)
+
     tamanho = len(prop_sen.index)
     print("Quantidade de proposicoes de interesse no Senado: ", tamanho)
     prop_sen.info()
