@@ -1583,20 +1583,16 @@ def frases(dados, origem):
 
 
 GLOBAL_lista_para_tweetar = []
-GLOBAL_df = pd.DataFrame()
 
 # TWEETA AS FRASES
 def tweeta(dados):
 
-    GLOBAL_df = pd.DataFrame(dados)
-    print('func tweeta')
-    print(GLOBAL_df)
     # Isola apenas primeiras linhas
-    df = dados.bfill().iloc[[0]]
+    # df = dados.bfill().iloc[[0]]
     columns = list(df)
 
 
-    for index, row in df.iterrows():
+    for index, row in dados.iterrows():
         GLOBAL_lista_para_tweetar.append(row.to_json())
 
 
