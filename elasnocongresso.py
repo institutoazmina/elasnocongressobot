@@ -1589,7 +1589,7 @@ def tweeta(dados):
 
     # Isola apenas primeiras linhas
     # df = dados.bfill().iloc[[0]]
-    columns = list(df)
+    # columns = list(df)
 
 
     for index, row in dados.iterrows():
