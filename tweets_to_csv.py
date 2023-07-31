@@ -6,11 +6,11 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # Use the JSON key file you downloaded to authenticate and create an API client
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('', scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name('dados/appcivico-teste-6a9ded47ac8d.json', scope)
 client = gspread.authorize(creds)
 
 # Open the Google Spreadsheet (replace 'My test sheet' with your sheet's name)
-sheet = client.open('').sheet1
+sheet = client.open('Teste').sheet1
 
 try:
     # Read the JSON file
@@ -24,7 +24,7 @@ try:
     df = pd.DataFrame(tweets)
     
     # Convert the DataFrame to CSV data
-    csv_data = df.to_csv(index=False)
+    csv_data = df.to_csv('output.csv', index=False)
     
     # Use the csv module to split the lines into cells
     csv_reader = csv.reader(csv_data.splitlines())
