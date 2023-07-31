@@ -819,7 +819,7 @@ def frases(dados, origem):
                     nome = nome.replace("]", "")
                     nome = nome.replace("'", "")
                     casa = 'CÂMARA'
-                    id = row['id']
+                    id = "{pt} {pn}/{pa}".format(pt = {proposicao_tipo}, pn = {proposicao_numero}, pa = {proposicao_ano})
                     ementa = row['ementa']
 
         try:
