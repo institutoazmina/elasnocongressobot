@@ -65,6 +65,9 @@ try:
         # Use the csv module to split the lines into cells
         csv_reader = csv.reader(csv_data.splitlines())
         csv_cells = list(csv_reader)
+
+        # Write the updated DataFrame to the CSV file
+        updated_df.to_csv('output.csv', index=False)
         
         # Remove the hash column
         csv_cells = [row[:-1] for row in csv_cells]
@@ -73,7 +76,7 @@ try:
         existing_data = sheet.get_all_values()
         
         # Prepend the new rows to the existing data
-        updated_data = csv_cells + existing_data[1:]  # Exclude the old header
+        updated_data = csv_cells
         
         # Clear the sheet
         sheet.clear()
