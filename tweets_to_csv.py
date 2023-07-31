@@ -66,23 +66,23 @@ try:
         csv_reader = csv.reader(csv_data.splitlines())
         csv_cells = list(csv_reader)
 
+        # Prepend the new rows to the existing data
+        updated_df = pd.concat([df, existing_df], ignore_index=True)
+
         # Write the updated DataFrame to the CSV file
         updated_df.to_csv('output.csv', index=False)
         
+        # Convert the updated DataFrame to a list of lists
+        csv_cells = updated_df.values.tolist()
+
         # Remove the hash column
         csv_cells = [row[:-1] for row in csv_cells]
-        
-        # Fetch the existing data from the sheet
-        existing_data = sheet.get_all_values()
-        
-        # Prepend the new rows to the existing data
-        updated_data = csv_cells
         
         # Clear the sheet
         sheet.clear()
         
         # Append the updated data back to the sheet
-        sheet.append_rows(updated_data)
+        sheet.append_rows(csv_cells)
 except ValueError as e:
     print(f"Error while reading JSON: {e}")
 except Exception as e:
