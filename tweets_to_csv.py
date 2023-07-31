@@ -73,14 +73,14 @@ try:
         updated_df.to_csv('output.csv', index=False)
         
         # Convert the updated DataFrame to a list of lists
-        csv_cells = updated_df.values.tolist()
+        csv_cells = [updated_df.columns.tolist()] + updated_df.values.tolist()
 
         # Remove the hash column
         csv_cells = [row[:-1] for row in csv_cells]
-        
+
         # Clear the sheet
         sheet.clear()
-        
+
         # Append the updated data back to the sheet
         sheet.append_rows(csv_cells)
 except ValueError as e:
