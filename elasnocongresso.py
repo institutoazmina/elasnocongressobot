@@ -805,8 +805,8 @@ def frases(dados, origem):
                     endereco = row['UrlTexto']
                     nome = row['NomeAutor'] or row['NomeParlamentar']
                     casa = 'SENADO'
-                    id = row['id']
-                    ementa = row['ementa']
+                    id = row['CodigoMateria']
+                    ementa = row['ementa_copia']
         elif origem == 'camara':
                     proposicao_ementa = row['ementa_minuscula']
                     proposicao_tipo = row['siglaTipo']
@@ -819,8 +819,13 @@ def frases(dados, origem):
                     nome = nome.replace("]", "")
                     nome = nome.replace("'", "")
                     casa = 'CÂMARA'
-                    id = row['CodigoMateria']
-                    ementa = row['ementa_copia']
+                    id = row['id']
+                    ementa = row['ementa']
+
+        try:
+            id and nome
+        except NameError:
+            continue
 
         sentencas = {}
 
