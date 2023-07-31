@@ -796,31 +796,31 @@ def frases(dados, origem):
     for num, row in dados.iterrows():
 
         if origem == 'senado':
-                    proposicao_ementa = row['ementa_minuscula'] or ''
-                    proposicao_tipo = row['SiglaSubtipoMateria'] or ''
-                    proposicao_numero = row['NumeroMateria'] or ''
-                    proposicao_ano = row['AnoMateria'] or ''
-                    tramitacao = row['NomeLocal'] or ''
-                    status = row['DescricaoSituacao'] or ''
-                    endereco = row['UrlTexto'] or ''
-                    nome = row['NomeAutor'] or row['NomeParlamentar'] or row['NomeCompletoParlamentar']
-                    casa = 'SENADO' or ''
-                    id = row['CodigoMateria'] or ''
-                    ementa = row['ementa_copia'] or ''
+                    proposicao_ementa = string(row['ementa_minuscula'] or '')
+                    proposicao_tipo = string(row['SiglaSubtipoMateria'] or '')
+                    proposicao_numero = string(row['NumeroMateria'] or '')
+                    proposicao_ano = string(row['AnoMateria'] or '')
+                    tramitacao = string(row['NomeLocal'] or '')
+                    status = string(row['DescricaoSituacao'] or '')
+                    endereco = string(row['UrlTexto'] or '')
+                    nome = string((row['NomeAutor'] or row['NomeParlamentar'] or row['NomeCompletoParlamentar']) or '')
+                    casa = 'SENADO'
+                    id = string(row['CodigoMateria'] or '')
+                    ementa = string(row['ementa_copia'] or '')
         elif origem == 'camara':
-                    proposicao_ementa = row['ementa_minuscula'] or ''
-                    proposicao_tipo = row['siglaTipo'] or ''
-                    proposicao_numero = row['numero'] or ''
-                    proposicao_ano = row['ano'] or ''
-                    tramitacao = row['statusProposicao_descricaoTramitacao'] or ''
-                    status = row['statusProposicao_descricaoSituacao'] or ''
-                    endereco = row['urlInteiroTeor'] or ''
-                    nome = str(row['autor']).replace("[", "") or ''
-                    nome = nome.replace("]", "") or ''
-                    nome = nome.replace("'", "") or ''
+                    proposicao_ementa = string(row['ementa_minuscula'] or '')
+                    proposicao_tipo = string(row['siglaTipo'] or '')
+                    proposicao_numero = string(row['numero'] or '')
+                    proposicao_ano = string(row['ano'] or '')
+                    tramitacao = string(row['statusProposicao_descricaoTramitacao'] or '')
+                    status = string(row['statusProposicao_descricaoSituacao'] or '')
+                    endereco = string(row['urlInteiroTeor'] or '')
+                    nome = str(row['autor']).replace("[", "")
+                    nome = nome.replace("]", "")
+                    nome = nome.replace("'", "")
                     casa = 'CÂMARA'
                     id = proposicao_tipo + ' ' + proposicao_numero + '/' + proposicao_ano
-                    ementa = row['ementa']
+                    ementa = string(row['ementa'] or '')
 
         try:
             id and nome
