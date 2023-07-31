@@ -2,6 +2,7 @@ import pandas as pd
 import gspread
 import json
 import csv
+import os
 from dotenv import load_dotenv # ler variaveis de ambiente do arquivo .env
 from oauth2client.service_account import ServiceAccountCredentials
 load_dotenv()
