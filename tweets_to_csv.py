@@ -13,8 +13,14 @@ client = gspread.authorize(creds)
 sheet = client.open('Teste').sheet1
 
 try:
-    # Read the existing CSV file into a DataFrame
-    existing_df = pd.read_csv('output.csv')
+    # Try to read the existing CSV file into a DataFrame
+    try:
+        existing_df = pd.read_csv('output.csv')
+    except pd.errors.EmptyDataError:
+        # If the CSV file is empty, download the data from the Google Spreadsheet
+        data = sheet.get_all_values()
+        existing_df = pd.DataFrame(data)
+        existing_df.to_csv('output.csv', index=False)
     
     # Read the JSON file
     with open('dados/tweets.json', 'r') as f:
