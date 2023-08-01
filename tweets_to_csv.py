@@ -28,7 +28,7 @@ sheet = client.open(os.getenv("SPREADSHEET_NAME")).sheet1
 try:
     # Try to read the existing CSV file into a DataFrame
     try:
-        existing_df = pd.read_csv('output.csv')
+        existing_df = pd.read_csv('output.csv').fillna('')
     except pd.errors.EmptyDataError:
         # If the CSV file is empty, download the data from the Google Spreadsheet
         data = sheet.get_all_values()
@@ -48,6 +48,7 @@ try:
     
         # Convert the list of dictionaries to a DataFrame
         df = pd.DataFrame(tweets)
+        df.replace([pd.np.nan, pd.np.inf, -pd.np.inf], '')
 
         # Check if 'hash' column exists in both dataframes
         if 'hash' in df.columns and 'hash' in existing_df.columns:
@@ -68,6 +69,8 @@ try:
 
         # Prepend the new rows to the existing data
         updated_df = pd.concat([df, existing_df], ignore_index=True)
+
+        updated_df.replace([pd.np.nan, pd.np.inf, -pd.np.inf], '')
 
         # Write the updated DataFrame to the CSV file
         updated_df.to_csv('output.csv', index=False)
