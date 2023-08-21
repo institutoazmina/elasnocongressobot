@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/institutoazmina/elasnocongressobot)
+
 # Elas no Congresso 
 
 O Elas no Congresso é um projeto da Revista AzMina que usa dados públicos para monitorar avanços e retrocessos nos direitos das mulheres no Congresso Nacional. Ele foi selecionado entre mais de 300 iniciativas, pelo Google News Initiative na América Latina, programa de incentivo ao jornalismo na era digital. O projeto se desdobra nesse robô, em um ranking dos parlamentares de acordo com sua atuação nas temáticas de gênero, e na produção de conteúdos no site da Revista AzMina e em newsletters temáticas. 
@@ -41,7 +43,3 @@ Para executar `enviar_tweets.py`, será necessário configurar o arquivo .env co
 Edite o conteudo do .env com a chave, e então poderá ser possível executar o envio.
 
 A cada envio de tweet, um arquivo cujo nome é o hash do tweet, ficará salvo em ./dados/tweets-enviados/$HASH, dentro dentro deste arquivo, tem informações sobre o tweet.
-
-# créditos
-
-A licença é creative commons e ele pode ser usado e replicado à vontade, mesmo sem pedir permissão e sem citação de fonte (mas se você utilizar e for uma pessoa legal e transparente, pode dar crédito para a Revista AzMina).
