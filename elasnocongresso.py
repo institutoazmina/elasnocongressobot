@@ -38,8 +38,7 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
     # Forma url de pesquisa
     url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=%s-%s-%s&dataFim=%s-%s-%s&ordem=ASC&ordenarPor=id" % (
             ano_anterior, mes_anterior, dia_anterior, ano_hoje, mes_hoje, dia_hoje)
-    # url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=2021-01-01&dataFim=2021-12-31&ordem=ASC&ordenarPor=id"
-    print(url)
+    # url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=2022-01-01&dataFim=2022-12-31&ordem=ASC&ordenarPor=id"
 
     # Captura quantas páginas tem esse intervalo de data na API
     parametros = {'formato': 'json', 'itens': 100}
@@ -108,10 +107,9 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
     conta = 0
 
     for num, row in df_proposicoes_api_final.iterrows():
-        id = row['id']
+        id = row.get('id', '')
 
         url = endpoint + id
-        print(url)
 
         try:
             r = requests.get(url)
@@ -157,10 +155,9 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
 
 
     for num, row in seleciona.iterrows():
-        id = row['id']
+        id = row.get('id', '')
 
         url = endpoint + id
-        print(url)
 
         # captura os dados de detalhes
         try:
@@ -190,6 +187,11 @@ def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoj
                                                     }
 
         projetos.append(dicionario)
+
+    try:
+        df_autores
+    except NameError:
+        df_autores = pd.DataFrame()
 
     df_proposicoes_situacao = pd.DataFrame(projetos)
     # Inclui autores
@@ -226,7 +228,7 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
 
     # Forma url de pesquisa principal
     url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=%s%s%s" % (ano_anterior, mes_anterior, dia_anterior)
-    # url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=20211231"
+    # url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=20221231"
     print(url)
 
     tramitando = []
@@ -278,7 +280,7 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
     projetos_det = []
 
     for num, row in df_tramitando.iterrows():
-        codigo = row['CodigoMateria']
+        codigo = row.get('CodigoMateria', '')
 
         url = prefixo + codigo
         print(url)
@@ -624,7 +626,7 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
     prop_teor = []
 
     for num, row in df_propdia_det.iterrows():
-        codigo = row['CodigoMateria']
+        codigo = row.get('CodigoMateria', '')
 
         url = prefixo + codigo
         print(url)
@@ -709,120 +711,120 @@ def frases(dados, origem):
     for num, row in dados.iterrows():
 
         if origem == 'senado':
-                    proposicao_ementa = str(row['ementa_minuscula'] or '')
-                    proposicao_tipo = str(row['SiglaSubtipoMateria'] or '')
-                    proposicao_numero = str(row['NumeroMateria'] or '')
-                    proposicao_ano = str(row['AnoMateria'] or '')
-                    tramitacao = str(row['NomeLocal'] or '')
-                    status = str(row['DescricaoSituacao'] or '')
-                    endereco = str(row['UrlTexto'] or '')
-                    nome = str((row['NomeAutor'] or row['NomeParlamentar'] or row['NomeCompletoParlamentar']) or '')
+                    proposicao_ementa = str(row.get('ementa_minuscula', '') or '')
+                    proposicao_tipo = str(row.get('SiglaSubtipoMateria', '') or '')
+                    proposicao_numero = str(row.get('NumeroMateria', '') or '')
+                    proposicao_ano = str(row.get('AnoMateria', '') or '')
+                    tramitacao = str(row.get('NomeLocal', '') or '')
+                    status = str(row.get('DescricaoSituacao', '') or '')
+                    endereco = str(row.get('UrlTexto', '') or '')
+                    nome = str((row.get('NomeAutor', '') or row.get('NomeParlamentar', '') or row.get('NomeCompletoParlamentar', '')) or '')
                     casa = 'SENADO'
-                    id = str(row['CodigoMateria'] or '')
-                    ementa = str(row['ementa_copia'] or '')
-                    uf_autor = str(row['UfAutor'] or '')
-                    partido_autor = str(row['SiglaPartidoParlamentar'] or '')
-                    explicacao = str(row['ExplicacaoEmentaMateria'] or '')
-                    data_apresentacao = str(row['DataApresentacao'] or '')
-                    ultimo_despacho = str(row['DataSituacao'] or '')
-                    uri = str(row['UrlTexto'] or '')
-                    url_inteiro_teor = str(row['url_inteiro_teor'] or '')
-                    uri_autores = str(row['uri_autores'] or '')
-                    status_proposicao_sigla_orgao = str(row['status_proposicao_sigla_orgao'] or '')
-                    status_proposicao_data_hora = str(row['status_proposicao_data_hora'] or '')
-                    codigo_materia = str(row['codigo_materia'] or '')
-                    sigla_casa_identificacao_materia = str(row['sigla_casa_identificacao_materia'] or '')
-                    nome_casa_identificacao_materia = str(row['nome_casa_identificacao_materia'] or '')
-                    sigla_subtipo_materia = str(row['sigla_subtipo_materia'] or '')
-                    descricao_subtipo_materia = str(row['descricao_subtipo_materia'] or '')
-                    numero_materia = str(row['numero_materia'] or '')
-                    ano_materia = str(row['ano_materia'] or '')
-                    descricao_objetivo_processo = str(row['descricao_objetivo_processo'] or '')
-                    descricao_identificacao_materia = str(row['descricao_identificacao_materia'] or '')
-                    indicador_tramitando = str(row['indicador_tramitando'] or '')
-                    ementa_materia = str(row['ementa_materia'] or '')
-                    explicacao_ementa_materia = str(row['explicacao_ementa_materia'] or '')
-                    apelido_materia = str(row['apelido_materia'] or '')
-                    indicador_complementar = str(row['indicador_complementar'] or '')
-                    data_leitura = str(row['data_leitura'] or '')
-                    sigla_casa_leitura = str(row['sigla_casa_leitura'] or '')
-                    nome_casa_leitura = str(row['nome_casa_leitura'] or '')
-                    codigo_natureza = str(row['codigo_natureza'] or '')
-                    nome_natureza = str(row['nome_natureza'] or '')
-                    descricao_natureza = str(row['descricao_natureza'] or '')
-                    codigo_assunto = str(row['codigo_assunto'] or '')
-                    descricao_assunto = str(row['descricao_assunto'] or '')
-                    codigo_assunto_geral = str(row['codigo_assunto_geral'] or '')
-                    descricao_assunto_geral = str(row['descricao_assunto_geral'] or '')
-                    nome_poder_origem = str(row['nome_poder_origem'] or '')
-                    sigla_casa_origem = str(row['sigla_casa_origem'] or '')
-                    nome_casa_origem = str(row['nome_casa_origem'] or '')
-                    sigla_casa_iniciadora = str(row['sigla_casa_iniciadora'] or '')
-                    nome_casa_iniciadora = str(row['nome_casa_iniciadora'] or '')
-                    nome_autor = str(row['nome_autor'] or '')
-                    sigla_tipo_autor = str(row['sigla_tipo_autor'] or '')
-                    descricao_tipo_autor = str(row['descricao_tipo_autor'] or '')
-                    num_ordem_autor = str(row['num_ordem_autor'] or '')
-                    indicador_outros_autores = str(row['indicador_outros_autores'] or '')
-                    codigo_parlamentar = str(row['codigo_parlamentar'] or '')
-                    codigo_publico_na_leg_atual = str(row['codigo_publico_na_leg_atual'] or '')
-                    nome_parlamentar = str(row['nome_parlamentar'] or '')
-                    nome_completo_parlamentar = str(row['nome_completo_parlamentar'] or '')
-                    sexo_parlamentar = str(row['sexo_parlamentar'] or '')
-                    forma_tratamento = str(row['forma_tratamento'] or '')
-                    url_foto_parlamentar = str(row['url_foto_parlamentar'] or '')
-                    url_pagina_parlamentar = str(row['url_pagina_parlamentar'] or '')
-                    email_parlamentar = str(row['email_parlamentar'] or '')
-                    sigla_partido_parlamentar = str(row['sigla_partido_parlamentar'] or '')
-                    uf_parlamentar = str(row['uf_parlamentar'] or '')
-                    numero_autuacao = str(row['numero_autuacao'] or '')
-                    data_situacao = str(row['data_situacao'] or '')
-                    codigo_situacao = str(row['codigo_situacao'] or '')
-                    sigla_situacao = str(row['sigla_situacao'] or '')
-                    descricao_situacao = str(row['descricao_situacao'] or '')
-                    data_local = str(row['data_local'] or '')
-                    codigo_local = str(row['codigo_local'] or '')
-                    tipo_local = str(row['tipo_local'] or '')
-                    sigla_casa_local = str(row['sigla_casa_local'] or '')
-                    nome_casa_local = str(row['nome_casa_local'] or '')
-                    sigla_local = str(row['sigla_local'] or '')
-                    nome_local = str(row['nome_local'] or '')
-                    url_emendas = str(row['url_emendas'] or '')
-                    url_movimentacoes = str(row['url_movimentacoes'] or '')
-                    url_relatorias = str(row['url_relatorias'] or '')
-                    url_texto = str(row['url_texto'] or '')
-                    url_votacoes_materia = str(row['url_votacoes_materia'] or '')
-                    url_votacoes_comissoes = str(row['url_votacoes_comissoes'] or '')
-                    codigo_texto = str(row['codigo_texto'] or '')
-                    url_texto = str(row['url_texto'] or '')
-                    ementa_copia = str(row['ementa_copia'] or '')
-                    ementa_minuscula = str(row['ementa_minuscu'] or '')
+                    id = str(row.get('CodigoMateria', '') or '')
+                    ementa = str(row.get('ementa_copia', '') or '')
+                    uf_autor = str(row.get('UfAutor', '') or '')
+                    partido_autor = str(row.get('SiglaPartidoParlamentar', '') or '')
+                    explicacao = str(row.get('ExplicacaoEmentaMateria', '') or '')
+                    data_apresentacao = str(row.get('DataApresentacao', '') or '')
+                    ultimo_despacho = str(row.get('DataSituacao', '') or '')
+                    uri = str(row.get('UrlTexto', '') or '')
+                    url_inteiro_teor = str(row.get('urlInteiroTeor', '') or '')
+                    uri_autores = str(row.get('uriAutores', '') or '')
+                    status_proposicao_sigla_orgao = str(row.get('statusProposicaoSiglaOrgao', '') or '')
+                    status_proposicao_data_hora = str(row.get('statusProposicaoDataHora', '') or '')
+                    codigo_materia = str(row.get('codigoMateria', '') or '')
+                    sigla_casa_identificacao_materia = str(row.get('siglaCasaIdentificacaoMateria', '') or '')
+                    nome_casa_identificacao_materia = str(row.get('nomeCasaIdentificacaoMateria', '') or '')
+                    sigla_subtipo_materia = str(row.get('siglaSubtipoMateria', '') or '')
+                    descricao_subtipo_materia = str(row.get('descricaoSubtipoMateria', '') or '')
+                    numero_materia = str(row.get('numeroMateria', '') or '')
+                    ano_materia = str(row.get('anoMateria', '') or '')
+                    descricao_objetivo_processo = str(row.get('descricaoObjetivoProcesso', '') or '')
+                    descricao_identificacao_materia = str(row.get('descricaoIdentificacaoMateria', '') or '')
+                    indicador_tramitando = str(row.get('indicadorTramitando', '') or '')
+                    ementa_materia = str(row.get('ementaMateria', '') or '')
+                    explicacao_ementa_materia = str(row.get('explicacaoEmentaMateria', '') or '')
+                    apelido_materia = str(row.get('apelidoMateria', '') or '')
+                    indicador_complementar = str(row.get('indicadorComplementar', '') or '')
+                    data_leitura = str(row.get('dataLeitura', '') or '')
+                    sigla_casa_leitura = str(row.get('siglaCasaLeitura', '') or '')
+                    nome_casa_leitura = str(row.get('nomeCasaLeitura', '') or '')
+                    codigo_natureza = str(row.get('codigoNatureza', '') or '')
+                    nome_natureza = str(row.get('nomeNatureza', '') or '')
+                    descricao_natureza = str(row.get('descricaoNatureza', '') or '')
+                    codigo_assunto = str(row.get('codigoAssunto', '') or '')
+                    descricao_assunto = str(row.get('descricaoAssunto', '') or '')
+                    codigo_assunto_geral = str(row.get('codigoAssuntoGeral', '') or '')
+                    descricao_assunto_geral = str(row.get('descricaoAssuntoGeral', '') or '')
+                    nome_poder_origem = str(row.get('nomePoderOrigem', '') or '')
+                    sigla_casa_origem = str(row.get('siglaCasaOrigem', '') or '')
+                    nome_casa_origem = str(row.get('nomeCasaOrigem', '') or '')
+                    sigla_casa_iniciadora = str(row.get('siglaCasaIniciadora', '') or '')
+                    nome_casa_iniciadora = str(row.get('nomeCasaIniciadora', '') or '')
+                    nome_autor = str(row.get('nomeAutor', '') or '')
+                    sigla_tipo_autor = str(row.get('siglaTipoAutor', '') or '')
+                    descricao_tipo_autor = str(row.get('descricaoTipoAutor', '') or '')
+                    num_ordem_autor = str(row.get('numOrdemAutor', '') or '')
+                    indicador_outros_autores = str(row.get('indicadorOutrosAutores', '') or '')
+                    codigo_parlamentar = str(row.get('codigoParlamentar', '') or '')
+                    codigo_publico_na_leg_atual = str(row.get('codigoPublicoNaLegAtual', '') or '')
+                    nome_parlamentar = str(row.get('nomeParlamentar', '') or '')
+                    nome_completo_parlamentar = str(row.get('nomeCompletoParlamentar', '') or '')
+                    sexo_parlamentar = str(row.get('sexoParlamentar', '') or '')
+                    forma_tratamento = str(row.get('formaTratamento', '') or '')
+                    url_foto_parlamentar = str(row.get('urlFotoParlamentar', '') or '')
+                    url_pagina_parlamentar = str(row.get('urlPaginaParlamentar', '') or '')
+                    email_parlamentar = str(row.get('emailParlamentar', '') or '')
+                    sigla_partido_parlamentar = str(row.get('siglaPartidoParlamentar', '') or '')
+                    uf_parlamentar = str(row.get('ufParlamentar', '') or '')
+                    numero_autuacao = str(row.get('numeroAutuacao', '') or '')
+                    data_situacao = str(row.get('dataSituacao', '') or '')
+                    codigo_situacao = str(row.get('codigoSituacao', '') or '')
+                    sigla_situacao = str(row.get('siglaSituacao', '') or '')
+                    descricao_situacao = str(row.get('descricaoSituacao', '') or '')
+                    data_local = str(row.get('dataLocal', '') or '')
+                    codigo_local = str(row.get('codigoLocal', '') or '')
+                    tipo_local = str(row.get('tipoLocal', '') or '')
+                    sigla_casa_local = str(row.get('siglaCasaLocal', '') or '')
+                    nome_casa_local = str(row.get('nomeCasaLocal', '') or '')
+                    sigla_local = str(row.get('siglaLocal', '') or '')
+                    nome_local = str(row.get('nomeLocal', '') or '')
+                    url_emendas = str(row.get('urlEmendas', '') or '')
+                    url_movimentacoes = str(row.get('urlMovimentacoes', '') or '')
+                    url_relatorias = str(row.get('urlRelatorias', '') or '')
+                    url_texto = str(row.get('urlTexto', '') or '')
+                    url_votacoes_materia = str(row.get('urlVotacoesMateria', '') or '')
+                    url_votacoes_comissoes = str(row.get('urlVotacoesComissoes', '') or '')
+                    codigo_texto = str(row.get('codigoTexto', '') or '')
+                    url_texto = str(row.get('urlTexto', '') or '')
+                    ementa_copia = str(row.get('ementaCopia', '') or '')
+                    ementa_minuscula = str(row.get('ementaMinuscula', '') or '')
 
 
         elif origem == 'camara':
-                    proposicao_ementa = str(row['ementa_minuscula'] or '')
-                    proposicao_tipo = str(row['siglaTipo'] or '')
-                    proposicao_numero = str(row['numero'] or '')
-                    proposicao_ano = str(row['ano'] or '')
-                    tramitacao = str(row['statusProposicao_descricaoTramitacao'] or '')
-                    status = str(row['statusProposicao_descricaoSituacao'] or '')
-                    endereco = str(row['urlInteiroTeor'] or '')
-                    nome = str(row['autor']).replace("[", "")
+                    proposicao_ementa = str(row.get('ementa_minuscula', '') or '')
+                    proposicao_tipo = str(row.get('siglaTipo', '') or '')
+                    proposicao_numero = str(row.get('numero', '') or '')
+                    proposicao_ano = str(row.get('ano', '') or '')
+                    tramitacao = str(row.get('statusProposicao_descricaoTramitacao', '') or '')
+                    status = str(row.get('statusProposicao_descricaoSituacao', '') or '')
+                    endereco = str(row.get('urlInteiroTeor', '') or '')
+                    nome = str(row.get('autor', '')).replace("[", "")
                     nome = nome.replace("]", "")
                     nome = nome.replace("'", "")
                     casa = 'CÂMARA'
                     id = proposicao_tipo + ' ' + proposicao_numero + '/' + proposicao_ano
-                    ementa = str(row['ementa'] or '')
+                    ementa = str(row.get('ementa', '') or '')
                     uf_autor = ''
                     partido_autor = ''
                     explicacao = ''
                     data_apresentacao = str(row['dataApresentacao' or ''])
-                    ultimo_despacho = str(row['statusProposicao_despacho'] or '')
-                    uri = str(row['uri'] or '')
-                    url_inteiro_teor = str(row['urlInteiroTeor'] or '')
-                    uri_autores = str(row['uriAutores'] or '')
-                    status_proposicao_sigla_orgao = str(row['statusProposicao_siglaOrgao'] or '')
-                    status_proposicao_data_hora = str(row['statusProposicao_dataHora'] or '')
+                    ultimo_despacho = str(row.get('statusProposicao_despacho', '') or '')
+                    uri = str(row.get('uri', '') or '')
+                    url_inteiro_teor = str(row.get('urlInteiroTeor', '') or '')
+                    uri_autores = str(row.get('uriAutores', '') or '')
+                    status_proposicao_sigla_orgao = str(row.get('statusProposicao_siglaOrgao', '') or '')
+                    status_proposicao_data_hora = str(row.get('statusProposicao_dataHora', '') or '')
                     codigo_materia = str('')
                     sigla_casa_identificacao_materia = str('')
                     nome_casa_identificacao_materia = str('')
