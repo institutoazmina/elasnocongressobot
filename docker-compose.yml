@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.5'
 
 services:
   elasnacamera:
@@ -7,14 +7,24 @@ services:
     volumes:
       - ./:/usr/src/app/
     networks:
-      - elasnacamera
+      - elasnacamera_network
     logging:
       driver: "json-file"
       options:
         max-file: '100'
         max-size: 1m
     restart: unless-stopped
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    networks:
+      - elasnacamera_network
+    restart: unless-stopped
 
 networks:
-  elasnacamera:
-    name: elasnacamera_network
+    elasnacamera_network:
+      driver: bridge
+      name: elasnacamera_network

@@ -36,9 +36,9 @@ def hash_text(text, algorithm="sha256"):
 # FUNÇÃO DA CÂMARA DOS DEPUTADOS
 def camara(dia_anterior, mes_anterior, ano_anterior, dia_hoje, mes_hoje, ano_hoje):
     # Forma url de pesquisa
-    url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=%s-%s-%s&dataFim=%s-%s-%s&ordem=ASC&ordenarPor=id" % (
-            ano_anterior, mes_anterior, dia_anterior, ano_hoje, mes_hoje, dia_hoje)
-    # url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=2022-01-01&dataFim=2022-12-31&ordem=ASC&ordenarPor=id"
+    # url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=%s-%s-%s&dataFim=%s-%s-%s&ordem=ASC&ordenarPor=id" % (
+    #         ano_anterior, mes_anterior, dia_anterior, ano_hoje, mes_hoje, dia_hoje)
+    url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=2023-01-01&dataFim=2023-12-31&ordem=ASC&ordenarPor=id"
 
     # Captura quantas páginas tem esse intervalo de data na API
     parametros = {'formato': 'json', 'itens': 100}
@@ -227,8 +227,8 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
     headers = {"Accept" : "application/json"}
 
     # Forma url de pesquisa principal
-    url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=%s%s%s" % (ano_anterior, mes_anterior, dia_anterior)
-    # url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=20221231"
+    # url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=%s%s%s" % (ano_anterior, mes_anterior, dia_anterior)
+    url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=20230624"
     print(url)
 
     tramitando = []
@@ -265,7 +265,6 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
                         "IndicadorTramitando": get_by_key('IdentificacaoMateria.IndicadorTramitando', item),
                         "DataUltimaAtualizacao": get_by_key('DataUltimaAtualizacao', item)
                         }
-
         tramitando.append(dicionario)
 
     df_tramitando = pd.DataFrame(tramitando)
@@ -278,7 +277,6 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
     prefixo = 'http://legis.senado.leg.br/dadosabertos/materia/'
 
     projetos_det = []
-
     for num, row in df_tramitando.iterrows():
         codigo = row.get('CodigoMateria', '')
 
@@ -332,7 +330,7 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
                                          }
 
         try:
-            NomeAutor = str(projects['DetalheMateria']['Materia']['Autoria']['Autor'][0]['NomeAutor'])
+            NomeAutor = str(projects['DetalheMateria']['Materia']['DadosBasicosMateria']['Autor'])
         except KeyError:
             NomeAutor = None
         except TypeError:
@@ -611,7 +609,7 @@ def senado(ano_anterior, mes_anterior, dia_anterior):
         dicionario['url_texto'] = url_texto
         dicionario['url_votacoes_materia'] = url_votacoes_materia
         dicionario['url_votacoes_comissoes'] = url_votacoes_comissoes
-
+        dicionario['DataUltimaAtualizacao'] = row.get('DataUltimaAtualizacao')
 
         projetos_det.append(dicionario)
 
@@ -709,6 +707,7 @@ def frases(dados, origem):
 
     conta = 1
     for num, row in dados.iterrows():
+        print(row['DataUltimaAtualizacao'])
 
         if origem == 'senado':
                     proposicao_ementa = str(row.get('ementa_minuscula', '') or '')
@@ -731,7 +730,7 @@ def frases(dados, origem):
                     url_inteiro_teor = str(row.get('urlInteiroTeor', '') or '')
                     uri_autores = str(row.get('uriAutores', '') or '')
                     status_proposicao_sigla_orgao = str(row.get('statusProposicaoSiglaOrgao', '') or '')
-                    status_proposicao_data_hora = str(row.get('statusProposicaoDataHora', '') or '')
+                    status_proposicao_data_hora = str(row.get('DataUltimaAtualizacao', '') or '')
                     codigo_materia = str(row.get('codigoMateria', '') or '')
                     sigla_casa_identificacao_materia = str(row.get('siglaCasaIdentificacaoMateria', '') or '')
                     nome_casa_identificacao_materia = str(row.get('nomeCasaIdentificacaoMateria', '') or '')
@@ -7080,23 +7079,23 @@ def main():
     print("/////////////////////////////////////")
 
     # Captura proposicoes Senado
-    prop_sen = senado(ano_anterior, mes_anterior, dia_anterior)
+    # prop_sen = senado(ano_anterior, mes_anterior, dia_anterior)
 
-    tamanho = len(prop_sen.index)
-    print("Quantidade de proposicoes de interesse no Senado: ", tamanho)
-    prop_sen.info()
+    # tamanho = len(prop_sen.index)
+    # print("Quantidade de proposicoes de interesse no Senado: ", tamanho)
+    # prop_sen.info()
 
-    # Cria frases do Senado
-    if tamanho != 0:
-        df_lista_sentencas = frases(prop_sen, 'senado')
-         # print(df_lista_sentencas)
+    # # Cria frases do Senado
+    # if tamanho != 0:
+    #     df_lista_sentencas = frases(prop_sen, 'senado')
+    #      # print(df_lista_sentencas)
 
-        df_lista_sentencas['hash'] = df_lista_sentencas.iloc[:, 0].apply(hash_text)
+    #     df_lista_sentencas['hash'] = df_lista_sentencas.iloc[:, 0].apply(hash_text)
 
-         # Faz Tweets
-        tam_frases = len(df_lista_sentencas.index)
-        if tam_frases > 0:
-            tweeta(df_lista_sentencas)
+    #      # Faz Tweets
+    #     tam_frases = len(df_lista_sentencas.index)
+    #     if tam_frases > 0:
+    #         tweeta(df_lista_sentencas)
 
 
 
