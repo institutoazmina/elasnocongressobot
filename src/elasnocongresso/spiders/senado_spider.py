@@ -9,10 +9,11 @@ class SenadoSpider(XMLFeedSpider):
     dia_anterior = (datetime.now() - timedelta(1)).strftime('%d')
     mes_anterior = (datetime.now() - timedelta(1)).strftime('%m')
     ano_anterior = (datetime.now() - timedelta(1)).strftime('%Y')
+    url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=%s%s%s" % (ano_anterior, mes_anterior, dia_anterior)
 
     name = 'senado'
     allowed_domains = ['legis.senado.leg.br']
-    start_urls = ['https://legis.senado.leg.br/dadosabertos/materia/tramitando?data=20230624']
+    start_urls = [url]
     iterator = 'iternodes'
     itertag = 'Materia'
 
