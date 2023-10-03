@@ -95,7 +95,7 @@ class CamaraSpider(XMLFeedSpider):
         item['ambito'] = response.xpath('//dados/statusProposicao/ambito/text()').extract_first()
         item['apreciacao'] = response.xpath('//dados/statusProposicao/apreciacao/text()').extract_first()
 
-        theme_assertion = assert_theme({"ementa": item['ementa'], "ementaDetalhada": item['ementaDetalhada']})
+        theme_assertion = assert_theme({"ementa": item['ementa'], "ementaDetalhada": item['ementaDetalhada'], "keywords": item['keywords']})
         if theme_assertion['row_relevant']:
             item['temas'] = ', '.join(theme_assertion['temas'])
 
