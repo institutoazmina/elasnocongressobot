@@ -1,15 +1,8 @@
 #!/bin/bash
 
 date >> logs/docker.elasnocongresso.log
-python elasnocongresso.py 1>> logs/elasnocongresso.log 2>> logs/elasnocongresso.err.log;
-python enviar_tweets.py 1>>logs/enviar_tweets.log 2>>logs/enviar_tweets.err.log;
-sleep 10800;
-date >> logs/docker.elasnocongresso.log
-python elasnocongresso.py 1>> logs/elasnocongresso.log 2>> logs/elasnocongresso.err.log;
-python enviar_tweets.py 1>>logs/enviar_tweets.log 2>>logs/enviar_tweets.err.log;
-sleep 18000;
-date >> logs/docker.elasnocongresso.log
-python elasnocongresso.py 1>> logs/elasnocongresso.log 2>> logs/elasnocongresso.err.log;
-python enviar_tweets.py 1>>logs/enviar_tweets.log 2>>logs/enviar_tweets.err.log;
-
+cd src/
+python3 -m scrapy crawl camara 1>> logs/crawl_camara.log 2>> logs/crawl_camara_.err.log;
+python3 -m scrapy crawl senado 1>> logs/crawl_senado.log 2>> logs/crawl_senado_.err.log;
+python sync_spreadsheet.py
 
