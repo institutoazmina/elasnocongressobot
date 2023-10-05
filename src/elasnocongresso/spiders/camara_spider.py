@@ -19,6 +19,7 @@ class CamaraSpider(XMLFeedSpider):
     ano_hoje = (datetime.now() + timedelta(1)).strftime('%Y')
 
     url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=%s-%s-%s&dataFim=%s-%s-%s&ordem=ASC&ordenarPor=id&itens=100" % (ano_anterior, mes_anterior, dia_anterior, ano_hoje, mes_hoje, dia_hoje)
+    # url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=2023-09-25&dataFim=2023-10-04&ordem=ASC&ordenarPor=id&itens=100"
 
     name = 'camara'
     allowed_domains = ['dadosabertos.camara.leg.br']
@@ -94,6 +95,7 @@ class CamaraSpider(XMLFeedSpider):
         item['url'] = response.xpath('//dados/statusProposicao/url/text()').extract_first()
         item['ambito'] = response.xpath('//dados/statusProposicao/ambito/text()').extract_first()
         item['apreciacao'] = response.xpath('//dados/statusProposicao/apreciacao/text()').extract_first()
+        item['urlTramitacao'] = f"https://www.camara.leg.br/propostas-legislativas/{item['id']}"
 
         theme_assertion = assert_theme({"ementa": item['ementa'], "ementaDetalhada": item['ementaDetalhada'], "keywords": item['keywords']})
         if theme_assertion['row_relevant']:
