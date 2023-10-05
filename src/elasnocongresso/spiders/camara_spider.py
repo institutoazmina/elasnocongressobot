@@ -6,21 +6,19 @@ import redis
 from datetime import datetime, timedelta
 from .theme_assert import assert_theme
 
-class CamaraSpider(XMLFeedSpider):
-    # Captura o dia, mês e ano de ontem
-    dia_anterior = (datetime.now() - timedelta(1)).strftime('%d')
-    mes_anterior = (datetime.now() - timedelta(1)).strftime('%m')
-    ano_anterior = (datetime.now() - timedelta(1)).strftime('%Y')
+# Captura o dia, mês e ano de ontem
+dia_anterior = (datetime.now() - timedelta(1)).strftime('%d')
+mes_anterior = (datetime.now() - timedelta(1)).strftime('%m')
+ano_anterior = (datetime.now() - timedelta(1)).strftime('%Y')
 
-    # Captura o dia, mês e ano de amanha (assim nao preciso mudar o codigo para remover o parametro data_ate)
-    now = datetime.now()
-    dia_hoje = (datetime.now() + timedelta(1)).strftime('%d')
-    mes_hoje = (datetime.now() + timedelta(1)).strftime('%m')
-    ano_hoje = (datetime.now() + timedelta(1)).strftime('%Y')
+# Captura o dia, mês e ano de amanha (assim nao preciso mudar o codigo para remover o parametro data_ate)
+now = datetime.now()
+dia_hoje = (datetime.now() + timedelta(1)).strftime('%d')
+mes_hoje = (datetime.now() + timedelta(1)).strftime('%m')
+ano_hoje = (datetime.now() + timedelta(1)).strftime('%Y')
+class CamaraSpider(XMLFeedSpider):
 
     url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=%s-%s-%s&dataFim=%s-%s-%s&ordem=ASC&ordenarPor=id&itens=100" % (ano_anterior, mes_anterior, dia_anterior, ano_hoje, mes_hoje, dia_hoje)
-    # url = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=2023-09-25&dataFim=2023-10-04&ordem=ASC&ordenarPor=id&itens=100"
-
     name = 'camara'
     allowed_domains = ['dadosabertos.camara.leg.br']
     start_urls = [url]
@@ -28,7 +26,8 @@ class CamaraSpider(XMLFeedSpider):
     itertag = 'proposicao_'
 
     def __init__(self):
-        self.file = open("camara.csv", 'wb')
+        current_date = datetime.now().strftime('%Y%m%d')
+        self.file = open("camara_%s.csv" % (current_date), 'wb')
         self.exporter = CsvItemExporter(self.file)
         self.exporter.start_exporting()
         self.redis = redis.Redis(host='redis', port=6379, db=0)

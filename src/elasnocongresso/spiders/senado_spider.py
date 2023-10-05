@@ -10,7 +10,6 @@ class SenadoSpider(XMLFeedSpider):
     mes_anterior = (datetime.now() - timedelta(1)).strftime('%m')
     ano_anterior = (datetime.now() - timedelta(1)).strftime('%Y')
     url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=%s%s%s" % (ano_anterior, mes_anterior, dia_anterior)
-
     name = 'senado'
     allowed_domains = ['legis.senado.leg.br']
     start_urls = [url]
@@ -18,7 +17,8 @@ class SenadoSpider(XMLFeedSpider):
     itertag = 'Materia'
 
     def __init__(self):
-        self.file = open("senado.csv", 'wb')
+        current_date = datetime.now().strftime('%Y%m%d')
+        self.file = open(f"senado_{current_date}.csv", 'wb')
         self.exporter = CsvItemExporter(self.file)
         self.exporter.start_exporting()
         self.redis = redis.Redis(host='redis', port=6379, db=0)
