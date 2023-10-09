@@ -75,14 +75,20 @@ class SenadoSpider(XMLFeedSpider):
         item['AssuntoGeralCod'] = response.xpath('Assunto/AssuntoGeral/Codigo').extract_first()
         item['AssuntoGeralDesc'] = response.xpath('Assunto/AssuntoGeral/Descricao').extract_first()
 
-        self.exporter.export_item(item)
-        return item
-
-    def parse_authors(self, response):
-        item = response.meta['item']
-
-        item['nome'] = response.xpath('//autor/nome/text()').extract_first()
-        item['tipo'] = response.xpath('//autor/tipo/text()').extract_first()
+        movements_url = response.xpath('//Servico[NomeServico="MovimentacaoMateria"]/UrlServico/text()').extract_first()
+        # if (movements_url):
+        movements_request = scrapy.Request(movements_url, callback=self.parse_movements)
+        movements_request.meta['item'] = item
+        yield movements_request
+        # else:
+            # self.exporter.export_item(item)
+            # return item
+    
+    def parse_movements(self, reponse):
+        item = reponse.meta['item']
+        
+        item['MovimentacaoDescricaoSituacao'] = reponse.xpath('//SituacaoAtual/DescricaoSituacao/text()').extract_first()
+        item['MovimentacaoDescricao'] = reponse.xpath('//InformeLegislativo/Descricao/text()').extract_first()
 
         self.exporter.export_item(item)
         return item
