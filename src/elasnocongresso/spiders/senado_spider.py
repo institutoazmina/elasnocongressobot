@@ -40,6 +40,7 @@ class SenadoSpider(XMLFeedSpider):
             item['Autor'] = node.xpath('Autor/text()').extract_first()
             item['DataApresentacao'] = node.xpath('DataApresentacao/text()').extract_first()
             item['DataUltimaAtualizacao'] = node.xpath('DataUltimaAtualizacao/text()').extract_first()
+            item['UrlTramitacao'] = f"https://www25.senado.leg.br/web/atividade/materias/-/materia/{item['CodigoMateria']}"
 
             theme_assertion = assert_theme({"Ementa": item['Ementa']})
             if theme_assertion['row_relevant']:
@@ -76,14 +77,10 @@ class SenadoSpider(XMLFeedSpider):
         item['AssuntoGeralDesc'] = response.xpath('Assunto/AssuntoGeral/Descricao').extract_first()
 
         movements_url = response.xpath('//Servico[NomeServico="MovimentacaoMateria"]/UrlServico/text()').extract_first()
-        # if (movements_url):
         movements_request = scrapy.Request(movements_url, callback=self.parse_movements)
         movements_request.meta['item'] = item
         yield movements_request
-        # else:
-            # self.exporter.export_item(item)
-            # return item
-    
+
     def parse_movements(self, reponse):
         item = reponse.meta['item']
         
