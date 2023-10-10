@@ -64,8 +64,8 @@ class CamaraSpider(XMLFeedSpider):
 
     def parse_row_data(self, response): 
         item = response.meta['item']
+        item['dataApresentacao'], item['horaApresentacao'] = response.xpath('//dados/dataApresentacao/text()').extract_first(default="").split('T')
         
-        item['dataApresentacao'] = response.xpath('//dados/dataApresentacao/text()').extract_first()
         item['uriOrgaoNumerador'] = response.xpath('//dados/uriOrgaoNumerador/text()').extract_first()
         item['uriAutores'] = response.xpath('//dados/uriAutores/text()').extract_first()
         item['descricaoTipo'] = response.xpath('//dados/descricaoTipo/text()').extract_first()
@@ -80,7 +80,7 @@ class CamaraSpider(XMLFeedSpider):
         item['justificativa'] = response.xpath('//dados/justificativa/text()').extract_first()
 
         ## Dados de tramitação
-        item['dataHora'] = response.xpath('//dados/statusProposicao/dataHora/text()').extract_first()
+        item['dataDaTramitacao'], item['horaDaTramitacao'] = response.xpath('//dados/statusProposicao/dataHora/text()').extract_first(default="").split('T')
         item['sequencia'] = response.xpath('//dados/statusProposicao/sequencia/text()').extract_first()
         item['siglaOrgao'] = response.xpath('//dados/statusProposicao/siglaOrgao/text()').extract_first()
         item['uriOrgao'] = response.xpath('//dados/statusProposicao/uriOrgao/text()').extract_first()
@@ -94,7 +94,10 @@ class CamaraSpider(XMLFeedSpider):
         item['url'] = response.xpath('//dados/statusProposicao/url/text()').extract_first()
         item['ambito'] = response.xpath('//dados/statusProposicao/ambito/text()').extract_first()
         item['apreciacao'] = response.xpath('//dados/statusProposicao/apreciacao/text()').extract_first()
+        
+        # Colunas/Dados construídos com concatenação.
         item['urlTramitacao'] = f"https://www.camara.leg.br/propostas-legislativas/{item['id']}"
+        item['nomeDoProjeto'] = f"{item['siglaTipo']} {item['numero']}/{item['ano']}"
 
         theme_assertion = assert_theme({"ementa": item['ementa'], "ementaDetalhada": item['ementaDetalhada'], "keywords": item['keywords']})
         if theme_assertion['row_relevant']:
@@ -107,8 +110,8 @@ class CamaraSpider(XMLFeedSpider):
     def parse_authors(self, response):
         item = response.meta['item']
 
-        item['nome'] = response.xpath('//autor/nome/text()').extract_first()
-        item['tipo'] = response.xpath('//autor/tipo/text()').extract_first()
+        item['autor'] = response.xpath('//autor/nome/text()').extract_first()
+        item['cargo'] = response.xpath('//autor/tipo/text()').extract_first()
 
         self.exporter.export_item(item)
         return item

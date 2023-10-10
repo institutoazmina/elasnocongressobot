@@ -34,12 +34,14 @@ class SenadoSpider(XMLFeedSpider):
             item['NumeroMateria'] = node.xpath('IdentificacaoMateria/NumeroMateria/text()').extract_first()
             item['AnoMateria'] = node.xpath('IdentificacaoMateria/AnoMateria/text()').extract_first()
             item['IdentificacaoProcesso'] = node.xpath('IdentificacaoMateria/IdentificacaoProcesso/text()').extract_first()
-            item['DescricaoIdentificacaoMateria'] = node.xpath('IdentificacaoMateria/DescricaoIdentificacaoMateria/text()').extract_first()
+            item['NomedoProjeto'] = node.xpath('IdentificacaoMateria/DescricaoIdentificacaoMateria/text()').extract_first()
             item['IndicadorTramitando'] = node.xpath('IdentificacaoMateria/IndicadorTramitando/text()').extract_first()
             item['Ementa'] = node.xpath('Ementa/text()').extract_first()
             item['Autor'] = node.xpath('Autor/text()').extract_first()
             item['DataApresentacao'] = node.xpath('DataApresentacao/text()').extract_first()
-            item['DataUltimaAtualizacao'] = node.xpath('DataUltimaAtualizacao/text()').extract_first()
+            item['DataDaTramitação'], item['HoraDaTramitação'] = node.xpath('DataUltimaAtualizacao/text()').extract_first(default="").split(' ')
+
+            # Colunas/Dados construídos com concatenação.
             item['UrlTramitacao'] = f"https://www25.senado.leg.br/web/atividade/materias/-/materia/{item['CodigoMateria']}"
 
             theme_assertion = assert_theme({"Ementa": item['Ementa']})
