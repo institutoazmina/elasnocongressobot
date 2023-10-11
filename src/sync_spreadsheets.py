@@ -24,7 +24,7 @@ cols_camara = ['id', 'urlTramitacao', 'dataDaTramitacao', 'horaDaTramitacao', 'n
                'ementaDetalhada', 'keywords', 'uriPropPrincipal', 'uriPropAnterior', 'uriPropPosterior',
                'urlInteiroTeor', 'urnFinal', 'texto', 'justificativa', 'dataApresentacao', 'horaApresentacao','sequencia',
                'siglaOrgao', 'uriOrgao', 'uriUltimoRelator', 'regime', 'uriOrgaoNumerador', 'codTipoTramitacao',
-               'uriAutores', 'codSituacao', 'despacho', 'url', 'ambito', 'apreciacao', 'temas', 'nome', 'tipo']
+               'uriAutores', 'codSituacao', 'despacho', 'url', 'ambito', 'apreciacao', 'temas']
 
 cols_senado = ['CodigoMateria', 'UrlTramitacao', 'DataDaTramitação', 'HoraDaTramitação', 'NomeDoProjeto', 'Autor',
                'MovimentacaoDescricaoSituacao', 'MovimentacaoDescricao', 'Ementa', 'NumeroMateria', 'AnoMateria',
