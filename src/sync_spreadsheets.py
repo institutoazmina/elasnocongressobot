@@ -19,6 +19,21 @@ client = gspread.authorize(creds)
 sheet_camara = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(0)  # 0 refers to first sheet
 sheet_senado = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(1)  # 1 refers to second sheet
 
+cols_camara = ['id', 'urlTramitacao', 'dataDaTramitacao', 'horaDaTramitacao', 'nomeDoProjeto', 'autor', 'cargo',
+               'descricaoTipo', 'descricaoSituacao', 'descricaoTramitacao', 'despacho', 'ementa', 'codTipo',
+               'ementaDetalhada', 'keywords', 'uriPropPrincipal', 'uriPropAnterior', 'uriPropPosterior',
+               'urlInteiroTeor', 'urnFinal', 'texto', 'justificativa', 'dataApresentacao', 'horaApresentacao','sequencia',
+               'siglaOrgao', 'uriOrgao', 'uriUltimoRelator', 'regime', 'uriOrgaoNumerador', 'codTipoTramitacao',
+               'uriAutores', 'codSituacao', 'despacho', 'url', 'ambito', 'apreciacao', 'temas', 'nome', 'tipo']
+
+cols_senado = ['CodigoMateria', 'UrlTramitacao', 'DataDaTramitação', 'HoraDaTramitação', 'NomeDoProjeto', 'Autor',
+               'MovimentacaoDescricaoSituacao', 'MovimentacaoDescricao', 'Ementa', 'NumeroMateria', 'AnoMateria',
+               'IdentificacaoProcesso', 'IndicadorTramitando', 'DataApresentacao', 'SiglaCasaIdentificacaoMateria',
+               'NomeCasaIdentificacaoMateria', 'SiglaSubtipoMateria', 'temas', 'ApelidoMateria', 'CasaIniciadoraNoLegislativo',
+               'NumeroRepublicacaoMpv', 'IndicadorComplementar', 'DataAssinatura', 'AssuntoEspecificoCod',
+               'AssuntoEspecificoDesc', 'AssuntoGeralCod', 'AssuntoGeralDesc' ]
+
+
 def read_csv(file_name):
     with open(file_name, newline='') as f:
         return list(csv.reader(f))
@@ -44,9 +59,11 @@ def update_csv(input_file, existing_file):
     # Write to existing file
     write_csv(existing_file, final_rows)
 
-def update_sheet(sheet, file_name):
+def update_sheet(sheet, file_name, columns):
     # Read the CSV file into a DataFrame
     df = pd.read_csv(file_name)
+
+    df = df[columns]
 
     # Clear the sheet
     sheet.clear()
@@ -58,7 +75,7 @@ def update_sheet(sheet, file_name):
 current_date = datetime.now().strftime('%Y%m%d')
 
 update_csv(f'camara_{current_date}.csv', 'camara.csv')
-update_sheet(sheet_camara, 'camara.csv')
+update_sheet(sheet_camara, 'camara.csv', cols_camara)
 
 update_csv(f'senado_{current_date}.csv', 'senado.csv')
-update_sheet(sheet_senado, 'senado.csv')
+update_sheet(sheet_senado, 'senado.csv', cols_senado)
