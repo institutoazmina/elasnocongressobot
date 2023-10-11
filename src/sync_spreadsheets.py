@@ -26,7 +26,7 @@ cols_camara = ['id', 'urlTramitacao', 'dataDaTramitacao', 'horaDaTramitacao', 'n
                'siglaOrgao', 'uriOrgao', 'uriUltimoRelator', 'regime', 'uriOrgaoNumerador', 'codTipoTramitacao',
                'uriAutores', 'codSituacao', 'despacho', 'url', 'ambito', 'apreciacao', 'temas']
 
-cols_senado = ['CodigoMateria', 'UrlTramitacao', 'DataDaTramitação', 'HoraDaTramitação', 'NomeDoProjeto', 'Autor',
+cols_senado = ['CodigoMateria', 'UrlTramitacao', 'DataDaTramitação', 'HoraDaTramitação', 'NomedoProjeto', 'Autor',
                'MovimentacaoDescricaoSituacao', 'MovimentacaoDescricao', 'Ementa', 'NumeroMateria', 'AnoMateria',
                'IdentificacaoProcesso', 'IndicadorTramitando', 'DataApresentacao', 'SiglaCasaIdentificacaoMateria',
                'NomeCasaIdentificacaoMateria', 'SiglaSubtipoMateria', 'temas', 'ApelidoMateria', 'CasaIniciadoraNoLegislativo',
