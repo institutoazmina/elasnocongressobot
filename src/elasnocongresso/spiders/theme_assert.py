@@ -1,7 +1,20 @@
 import re
 
+"""
+This module exports the assert_theme function.
+That is used to assert if a proposal is relevant for the goal of this project.
+"""
+
+
 def assert_theme(input_obj):
-    input_string = ' '.join([value or '' for value in input_obj.values()])
+    """
+    This function use two different regex. One looking for terms on words on itself,
+    and the other looks for words that are combined with another keyword.
+
+    The return of this function is a boolean that indicates wether the row is relevant
+    and the matches of both regex.
+    """
+    input_string = " ".join([value or "" for value in input_obj.values()])
 
     if not input_string.strip():
         return {"row_relevant": False, "temas": []}
