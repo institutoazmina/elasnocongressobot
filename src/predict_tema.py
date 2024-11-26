@@ -4,6 +4,9 @@ from torch import cuda
 import pandas as pd
 import time
 
+# Get the current YMD to access the correct CSV files.
+current_date = time.strftime("%Y%m%d", time.localtime())
+
 def get_device():
     return 'cuda' if cuda.is_available() else 'cpu'
 
@@ -27,7 +30,8 @@ def inference(model, tokenizer, class_mapping, input_text, device):
     return top_two_classes, all_proba
 
 def process_row(row, model, tokenizer, class_mapping, device, themes):
-    ementa = row['ementa'].lower()
+    ementa = row.get('ementa') or row.get('Ementa')
+    ementa = ementa.lower()
     tema_1 = None
 
     # Check for predefined themes
@@ -61,8 +65,12 @@ if __name__ == "__main__":
     config = AutoConfig.from_pretrained(MODEL_NAME)
     class_mapping = config.id2label
 
-    # Define input and output files
-    input_files = ["../dados/senado.csv","../dados/camara.csv"]  
+    """"
+    Define input and output files
+    The input files used here are the output files from the spiders
+    Thus they use the format "senado_YYYYMMDD.csv" and "camara_YYYYMMDD.csv"
+    """
+    input_files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
     output_files = ["../dados/senado.csv","../dados/camara.csv"]  
     
     # Define rule-based classification

@@ -126,6 +126,15 @@ def update_csv(input_file, existing_file):
     and, finally, writes the new result CSV.
     """
     input_rows = read_csv(input_file)
+
+    """"
+    The existing CSV may have not been created yet, so we need to check if it exists.
+    If it doesn't, we just write the input CSV to the existing file.
+    """
+    if not os.path.exists(existing_file):
+        write_csv(existing_file, input_rows)
+        return
+
     existing_rows = read_csv(existing_file)
 
     # Assuming the id column is the first one
