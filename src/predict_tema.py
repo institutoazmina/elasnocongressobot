@@ -71,7 +71,7 @@ if __name__ == "__main__":
     Thus they use the format "senado_YYYYMMDD.csv" and "camara_YYYYMMDD.csv"
     """
     input_files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
-    output_files = ["../dados/senado.csv","../dados/camara.csv"]  
+    output_files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
     
     # Define rule-based classification
     themes = {
