@@ -73,6 +73,8 @@ cols_camara = [
     "ambito",
     "apreciacao",
     "temas",
+    "tema_1",
+    "tema_2"
 ]
 
 cols_senado = [
@@ -103,6 +105,8 @@ cols_senado = [
     "AssuntoEspecificoDesc",
     "AssuntoGeralCod",
     "AssuntoGeralDesc",
+    "tema_1",
+    "tema_2"
 ]
 
 
