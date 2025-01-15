@@ -151,9 +151,28 @@ class SenadoSpider(XMLFeedSpider):
         movements_url = response.xpath(
             '//Servico[NomeServico="MovimentacaoMateria"]/UrlServico/text()'
         ).extract_first()
+
+        # Get author identification to fetch details
+        autor_id = response.xpath('//Autor/IdentificacaoParlamentar/CodigoParlamentar/text()').extract_first()
+        if autor_id:
+            author_url = f"https://legis.senado.leg.br/dadosabertos/senador/{autor_id}"
+            sexo, partido = scrapy.Request(author_url, callback=self.parse_author_details)
+        else:
+            sexo = None
+            partido = None
+
+        item["AutorSexo"] = sexo
+        item["AutorPartido"] = partido
+
         movements_request = scrapy.Request(movements_url, callback=self.parse_movements)
         movements_request.meta["item"] = item
         yield movements_request
+
+    def parse_author_details(self, response):
+        item = response.meta["item"]
+
+        return [response.xpath('//Parlamentar/SexoParlamentar/text()').extract_first(), 
+                response.xpath('//Parlamentar/SiglaPartidoParlamentar/text()').extract_first()]
 
     def parse_movements(self, reponse):
         item = reponse.meta["item"]
