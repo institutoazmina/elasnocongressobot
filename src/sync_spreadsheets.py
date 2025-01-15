@@ -74,7 +74,9 @@ cols_camara = [
     "apreciacao",
     "temas",
     "tema_1",
-    "tema_2"
+    "tema_2",
+    "sexo",
+    "partido"
 ]
 
 cols_senado = [
