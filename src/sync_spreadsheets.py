@@ -111,7 +111,9 @@ cols_senado = [
     "AssuntoGeralCod",
     "AssuntoGeralDesc",
     "tema_1",
-    "tema_2"
+    "tema_2",
+    "AutorSexo",
+    "AutorPartido"
 ]
 
 
