@@ -1,3 +1,35 @@
+"""Script para classificação automática de proposições legislativas.
+
+Este script processa proposições legislativas da Câmara e do Senado,
+realizando duas classificações:
+
+1. Classificação temática: identifica até dois temas principais da proposição,
+   combinando regras baseadas em palavras-chave com modelos de ML.
+   
+2. Classificação de posição: determina se a proposição tem impacto
+   positivo ou negativo para questões de gênero e direitos das mulheres.
+
+Os modelos utilizados são:
+- Tema: azmina/ia_feminista_tema
+- Posição: azmina/ia-feminista-bert-posicao
+
+Requisitos:
+- Python 3.7+
+- PyTorch
+- Transformers
+- Pandas
+- Arquivos CSV de entrada com coluna 'ementa' ou 'Ementa'
+
+Uso:
+    python run_models.py
+
+Os arquivos de entrada devem seguir o padrão:
+    senado_YYYYMMDD.csv
+    camara_YYYYMMDD.csv
+
+onde YYYYMMDD é a data atual.
+"""
+
 from transformers import AutoModelForSequenceClassification, AutoConfig, AutoTokenizer, PreTrainedModel
 import torch
 from torch import cuda
