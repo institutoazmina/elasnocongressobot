@@ -3,6 +3,14 @@ import torch
 from torch import cuda
 import pandas as pd
 import time
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Configuration
 current_date = time.strftime("%Y%m%d", time.localtime())
@@ -81,7 +89,7 @@ def process_file(input_file, output_file, model, tokenizer, class_mapping, devic
     df = pd.read_csv(input_file)
     df = df.apply(lambda row: process_row_func(row, model, tokenizer, class_mapping, device, **kwargs), axis=1)
     df.to_csv(output_file, index=False)
-    print(f"Processed {len(df)} rows and saved to {output_file}")
+    logger.info(f"Processed {len(df)} rows and saved to {output_file}")
 
 if __name__ == "__main__":
     # Load models, tokenizers, and configurations
@@ -97,16 +105,17 @@ if __name__ == "__main__":
 
     for file in input_files:
         # Load input data
+        logger.info(f"Processing file: {file}")
         df = pd.read_csv(file)
 
         # Process for `tema` columns
+        logger.info("Processing tema classification")
         df = df.apply(lambda row: process_row_tema(row, model_tema, tokenizer_tema, class_mapping_tema, DEVICE, themes=THEMES), axis=1)
 
         # Process for `classification` columns
+        logger.info("Processing position classification")
         df = df.apply(lambda row: process_row_posicao(row, model_class, tokenizer_class, class_mapping_class, DEVICE), axis=1)
 
         # Save the updated DataFrame back to the same file
         df.to_csv(file, index=False)
-
-        # Print processing details
-        print(f"Processed {len(df)} rows and updated {file}")
+        logger.info(f"Successfully processed {len(df)} rows in {file}")
