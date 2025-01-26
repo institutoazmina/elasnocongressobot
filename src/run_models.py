@@ -33,10 +33,15 @@ THEMES = {
     }
 
 def load_model_and_tokenizer(model_name, tokenizer_name, device):
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
-    model.to(device)
-    return model, tokenizer
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+        model = AutoModelForSequenceClassification.from_pretrained(model_name)
+        model.to(device)
+        logger.info(f"Successfully loaded model {model_name}")
+        return model, tokenizer
+    except Exception as e:
+        logger.error(f"Failed to load model {model_name}: {str(e)}")
+        raise
 
 def process_row_tema(row, model, tokenizer, class_mapping, device, themes):
     ementa = row.get('ementa') or row.get('Ementa', '')
@@ -92,30 +97,41 @@ def process_file(input_file, output_file, model, tokenizer, class_mapping, devic
     logger.info(f"Processed {len(df)} rows and saved to {output_file}")
 
 if __name__ == "__main__":
-    # Load models, tokenizers, and configurations
-    model_tema, tokenizer_tema = load_model_and_tokenizer(MODEL_NAME_TEMA, TOKENIZER_NAME, DEVICE)
-    model_class, tokenizer_class = load_model_and_tokenizer(MODEL_NAME_POSICAO, TOKENIZER_NAME, DEVICE)
-    config_tema = AutoConfig.from_pretrained(MODEL_NAME_TEMA)
-    config_class = AutoConfig.from_pretrained(MODEL_NAME_POSICAO)
-    class_mapping_tema = config_tema.id2label
-    class_mapping_class = config_class.id2label
+    try:
+        # Load models, tokenizers, and configurations
+        logger.info("Loading models and tokenizers...")
+        model_tema, tokenizer_tema = load_model_and_tokenizer(MODEL_NAME_TEMA, TOKENIZER_NAME, DEVICE)
+        model_class, tokenizer_class = load_model_and_tokenizer(MODEL_NAME_POSICAO, TOKENIZER_NAME, DEVICE)
+        
+        config_tema = AutoConfig.from_pretrained(MODEL_NAME_TEMA)
+        config_class = AutoConfig.from_pretrained(MODEL_NAME_POSICAO)
+        class_mapping_tema = config_tema.id2label
+        class_mapping_class = config_class.id2label
 
-    # Define input files
-    input_files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
+        # Define input files
+        input_files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
 
-    for file in input_files:
-        # Load input data
-        logger.info(f"Processing file: {file}")
-        df = pd.read_csv(file)
+        for file in input_files:
+            # Load input data
+            logger.info(f"Processing file: {file}")
+            df = pd.read_csv(file)
 
-        # Process for `tema` columns
-        logger.info("Processing tema classification")
-        df = df.apply(lambda row: process_row_tema(row, model_tema, tokenizer_tema, class_mapping_tema, DEVICE, themes=THEMES), axis=1)
+            # Process for `tema` columns
+            logger.info("Processing tema classification")
+            df = df.apply(lambda row: process_row_tema(row, model_tema, tokenizer_tema, class_mapping_tema, DEVICE, themes=THEMES), axis=1)
 
-        # Process for `classification` columns
-        logger.info("Processing position classification")
-        df = df.apply(lambda row: process_row_posicao(row, model_class, tokenizer_class, class_mapping_class, DEVICE), axis=1)
+            # Process for `classification` columns
+            logger.info("Processing position classification")
+            df = df.apply(lambda row: process_row_posicao(row, model_class, tokenizer_class, class_mapping_class, DEVICE), axis=1)
 
-        # Save the updated DataFrame back to the same file
-        df.to_csv(file, index=False)
-        logger.info(f"Successfully processed {len(df)} rows in {file}")
+            # Save the updated DataFrame back to the same file
+            df.to_csv(file, index=False)
+            logger.info(f"Successfully processed {len(df)} rows in {file}")
+
+    except Exception as e:
+        logger.error(f"Critical error during execution: {str(e)}")
+        raise
+    finally:
+        if DEVICE == 'cuda':
+            torch.cuda.empty_cache()
+            logger.info("CUDA cache cleared")
