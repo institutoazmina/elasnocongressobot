@@ -1,8 +1,50 @@
-from transformers import AutoModelForSequenceClassification, AutoConfig, AutoTokenizer
+"""Script para classificação automática de proposições legislativas.
+
+Este script processa proposições legislativas da Câmara e do Senado,
+realizando duas classificações:
+
+1. Classificação temática: identifica até dois temas principais da proposição,
+   combinando regras baseadas em palavras-chave com modelos de ML.
+   
+2. Classificação de posição: determina se a proposição tem impacto
+   positivo ou negativo para questões de gênero e direitos das mulheres.
+
+Os modelos utilizados são:
+- Tema: azmina/ia_feminista_tema
+- Posição: azmina/ia-feminista-bert-posicao
+
+Requisitos:
+- Python 3.7+
+- PyTorch
+- Transformers
+- Pandas
+- Arquivos CSV de entrada com coluna 'ementa' ou 'Ementa'
+
+Uso:
+    python run_models.py
+
+Os arquivos de entrada devem seguir o padrão:
+    senado_YYYYMMDD.csv
+    camara_YYYYMMDD.csv
+
+onde YYYYMMDD é a data atual.
+"""
+
+from transformers import AutoModelForSequenceClassification, AutoConfig, AutoTokenizer, PreTrainedModel
 import torch
 from torch import cuda
 import pandas as pd
+from pandas import DataFrame, Series
 import time
+import logging
+from typing import Dict, List, Tuple, Optional, Any
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Configuration
 current_date = time.strftime("%Y%m%d", time.localtime())
@@ -24,13 +66,55 @@ THEMES = {
                 populações vulneráveis, recursos hídricos, reflorestamento, sustentável, florestais"
     }
 
-def load_model_and_tokenizer(model_name, tokenizer_name, device):
-    tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name)
-    model.to(device)
-    return model, tokenizer
+def load_model_and_tokenizer(
+    model_name: str,
+    tokenizer_name: str,
+    device: str
+) -> Tuple[PreTrainedModel, Any]:
+    """Load pre-trained model and tokenizer.
+    
+    Args:
+        model_name: HuggingFace model identifier
+        tokenizer_name: HuggingFace tokenizer identifier
+        device: Device to load the model to ('cuda' or 'cpu')
+    
+    Returns:
+        Tuple containing the loaded model and tokenizer
+    
+    Raises:
+        Exception: If model or tokenizer loading fails
+    """
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+        model = AutoModelForSequenceClassification.from_pretrained(model_name)
+        model.to(device)
+        logger.info(f"Successfully loaded model {model_name}")
+        return model, tokenizer
+    except Exception as e:
+        logger.error(f"Failed to load model {model_name}: {str(e)}")
+        raise
 
-def process_row_tema(row, model, tokenizer, class_mapping, device, themes):
+def process_row_tema(
+    row: Series,
+    model: PreTrainedModel,
+    tokenizer: Any,
+    class_mapping: Dict[int, str],
+    device: str,
+    themes: Dict[str, str]
+) -> Series:
+    """Process a single row for tema classification.
+    
+    Args:
+        row: DataFrame row containing 'ementa' or 'Ementa' column
+        model: Pre-trained classification model
+        tokenizer: Tokenizer for the model
+        class_mapping: Mapping from class indices to labels
+        device: Device to run inference on
+        themes: Dictionary of themes and their keywords
+    
+    Returns:
+        Modified row with 'tema_1' and 'tema_2' columns added
+    """
     ementa = row.get('ementa') or row.get('Ementa', '')
     ementa = ementa.lower()
 
@@ -61,7 +145,25 @@ def process_row_tema(row, model, tokenizer, class_mapping, device, themes):
     row['tema_2'] = tema_2
     return row
 
-def process_row_posicao(row, model, tokenizer, class_mapping, device):
+def process_row_posicao(
+    row: Series,
+    model: PreTrainedModel,
+    tokenizer: Any,
+    class_mapping: Dict[int, str],
+    device: str
+) -> Series:
+    """Process a single row for position classification.
+    
+    Args:
+        row: DataFrame row containing 'ementa' or 'Ementa' column
+        model: Pre-trained classification model
+        tokenizer: Tokenizer for the model
+        class_mapping: Mapping from class indices to labels
+        device: Device to run inference on
+    
+    Returns:
+        Modified row with 'classification' and 'probabilities' columns added
+    """
     ementa = row.get('ementa') or row.get('Ementa', '').lower()
 
     tokens = tokenizer(ementa, truncation=True, max_length=512, return_tensors="pt")
@@ -77,36 +179,69 @@ def process_row_posicao(row, model, tokenizer, class_mapping, device):
     row['probabilities'] = round(prob_positive, 2)
     return row
 
-def process_file(input_file, output_file, model, tokenizer, class_mapping, device, process_row_func, **kwargs):
+def process_file(
+    input_file: str,
+    output_file: str,
+    model: PreTrainedModel,
+    tokenizer: Any,
+    class_mapping: Dict[int, str],
+    device: str,
+    process_row_func: Any,
+    **kwargs: Any
+) -> None:
+    """Process an entire file applying the specified row processing function.
+    
+    Args:
+        input_file: Path to input CSV file
+        output_file: Path to output CSV file
+        model: Pre-trained classification model
+        tokenizer: Tokenizer for the model
+        class_mapping: Mapping from class indices to labels
+        device: Device to run inference on
+        process_row_func: Function to process each row
+        **kwargs: Additional arguments passed to process_row_func
+    """
     df = pd.read_csv(input_file)
     df = df.apply(lambda row: process_row_func(row, model, tokenizer, class_mapping, device, **kwargs), axis=1)
     df.to_csv(output_file, index=False)
-    print(f"Processed {len(df)} rows and saved to {output_file}")
+    logger.info(f"Processed {len(df)} rows and saved to {output_file}")
 
 if __name__ == "__main__":
-    # Load models, tokenizers, and configurations
-    model_tema, tokenizer_tema = load_model_and_tokenizer(MODEL_NAME_TEMA, TOKENIZER_NAME, DEVICE)
-    model_class, tokenizer_class = load_model_and_tokenizer(MODEL_NAME_POSICAO, TOKENIZER_NAME, DEVICE)
-    config_tema = AutoConfig.from_pretrained(MODEL_NAME_TEMA)
-    config_class = AutoConfig.from_pretrained(MODEL_NAME_POSICAO)
-    class_mapping_tema = config_tema.id2label
-    class_mapping_class = config_class.id2label
+    try:
+        # Load models, tokenizers, and configurations
+        logger.info("Loading models and tokenizers...")
+        model_tema, tokenizer_tema = load_model_and_tokenizer(MODEL_NAME_TEMA, TOKENIZER_NAME, DEVICE)
+        model_class, tokenizer_class = load_model_and_tokenizer(MODEL_NAME_POSICAO, TOKENIZER_NAME, DEVICE)
+        
+        config_tema = AutoConfig.from_pretrained(MODEL_NAME_TEMA)
+        config_class = AutoConfig.from_pretrained(MODEL_NAME_POSICAO)
+        class_mapping_tema = config_tema.id2label
+        class_mapping_class = config_class.id2label
 
-    # Define input files
-    input_files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
+        # Define input files
+        input_files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
 
-    for file in input_files:
-        # Load input data
-        df = pd.read_csv(file)
+        for file in input_files:
+            # Load input data
+            logger.info(f"Processing file: {file}")
+            df = pd.read_csv(file)
 
-        # Process for `tema` columns
-        df = df.apply(lambda row: process_row_tema(row, model_tema, tokenizer_tema, class_mapping_tema, DEVICE, themes=THEMES), axis=1)
+            # Process for `tema` columns
+            logger.info("Processing tema classification")
+            df = df.apply(lambda row: process_row_tema(row, model_tema, tokenizer_tema, class_mapping_tema, DEVICE, themes=THEMES), axis=1)
 
-        # Process for `classification` columns
-        df = df.apply(lambda row: process_row_posicao(row, model_class, tokenizer_class, class_mapping_class, DEVICE), axis=1)
+            # Process for `classification` columns
+            logger.info("Processing position classification")
+            df = df.apply(lambda row: process_row_posicao(row, model_class, tokenizer_class, class_mapping_class, DEVICE), axis=1)
 
-        # Save the updated DataFrame back to the same file
-        df.to_csv(file, index=False)
+            # Save the updated DataFrame back to the same file
+            df.to_csv(file, index=False)
+            logger.info(f"Successfully processed {len(df)} rows in {file}")
 
-        # Print processing details
-        print(f"Processed {len(df)} rows and updated {file}")
+    except Exception as e:
+        logger.error(f"Critical error during execution: {str(e)}")
+        raise
+    finally:
+        if DEVICE == 'cuda':
+            torch.cuda.empty_cache()
+            logger.info("CUDA cache cleared")
