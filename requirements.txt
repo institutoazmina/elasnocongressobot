@@ -9,4 +9,4 @@ torch==2.5.1
 transformers==4.48.0
 requests==2.32.3
 replicate==1.0.4
-pypdf==5.2.0
+PyPDF2==3.0.1
