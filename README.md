@@ -8,6 +8,8 @@ O Elas no Congresso é um projeto da Revista AzMina que usa dados públicos para
 - O scraper faz a busca por palavras-chave relacionadas a questões de gênero e mulheres nos portais da Câmara dos Deputados e do Senado Federal.
 - Ele extrai informações como título do projeto, autor, data de apresentação, status do projeto e etc.
 - Os dados coletados são organizados e salvos em planilhas no formato CSV para fácil análise.
+- Modelos de código-aberto no HuggingFace são utilizados para fazer a classificação da ementa do projeto.
+- Uma LLM de código-aberto é usada via API (Replicate) para fazer a classificação do inteiro teor do projeto.
 
 ## Requisitos de Instalação
 - Docker e Docker compose
@@ -15,7 +17,7 @@ O Elas no Congresso é um projeto da Revista AzMina que usa dados públicos para
 ## Instalação
 1. Clone o repositório para o seu ambiente local:
     ```
-    git clone https://github.com/seu-usuario/women-projects-scraper.git
+    git clone https://github.com/institutoazmina/elasnocongressobot
     ```
 2. Navegue até o diretório do projeto;
 3. Copie o arquivo de variável de ambientes e preencha-os:
