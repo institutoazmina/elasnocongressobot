@@ -26,7 +26,7 @@ O Elas no Congresso é um projeto da Revista AzMina que usa dados públicos para
     ```
 4. Execute o Docker Compose para criar e iniciar os contêineres:
     ```
-   docker-compose up -d --build
+   docker compose up -d --build
     ```
 5. Execute o scraper:
     ```
