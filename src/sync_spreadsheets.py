@@ -65,7 +65,11 @@ cols_camara = [
     "apreciacao",
     "temas",
     "tema_1",
-    "tema_2"
+    "tema_2",
+    "classification",
+    "probabilities",
+    "posicao_llm",
+    "classification_posicao_final"
 ]
 
 cols_senado = [
