@@ -96,6 +96,11 @@ if __name__ == "__main__":
             # Load input data
             logger.info(f"Processing file: {file}")
             df = pd.read_csv(file)
+            
+            # Skip processing if DataFrame is empty
+            if df.empty:
+                logger.warning(f"Skipping {file} - CSV file has no data.")
+                continue
 
             # Process for `tema` columns
             logger.info("Processing tema classification")
@@ -112,7 +117,7 @@ if __name__ == "__main__":
                 df["texto"] = df["urlInteiroTeor"].apply(textfrompdf)
                 logger.info("Classifying full text")
                 df["posicao_llm"] = df["texto"].apply(lambda x: inference(x, API_TOKEN))
-                # drop texto
+                # Drop full text
                 df.drop(columns=["texto"], inplace=True)
 
             # Save the updated DataFrame back to the same file
