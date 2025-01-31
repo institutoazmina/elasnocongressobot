@@ -49,7 +49,7 @@ def textfrompdf(url: str, filename: str = "downloaded_file.pdf") -> str:
         return f"An error occurred while reading the PDF: {e}"
 
 
-def inference(prompt: str,api_token: str, model: str = "meta/meta-llama-3-70b-instruct") -> str:
+def inference(prompt: str, api_token: str, model: str = "meta/meta-llama-3-70b-instruct") -> str:
     """
     Perform inference using the Replicate API.
 

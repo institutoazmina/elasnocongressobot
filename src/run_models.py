@@ -37,6 +37,8 @@ import torch
 import pandas as pd  
 import time, os  
 import logging 
+import sys
+from pathlib import Path
 from transformers import AutoConfig
 
 # Custom functions
@@ -44,14 +46,39 @@ from utils_inteiroteor import textfrompdf, inference
 from utils_ementa import load_model_and_tokenizer, process_row_tema, process_row_posicao 
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+log_directory = Path().absolute().parent / 'logs'
+log_directory.mkdir(exist_ok=True)
+
+current_date = time.strftime("%Y%m%d", time.localtime())
+log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# Create logger
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# Remove any existing handlers
+logger.handlers = []
+
+# Console handler
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setFormatter(log_formatter)
+logger.addHandler(console_handler)
+
+# File handler for general logs
+general_log_file = log_directory / f'model_processing_{current_date}.log'
+file_handler = logging.FileHandler(general_log_file)
+file_handler.setFormatter(log_formatter)
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+
+# File handler for errors
+error_log_file = log_directory / f'model_errors_{current_date}.log'
+error_handler = logging.FileHandler(error_log_file)
+error_handler.setFormatter(log_formatter)
+error_handler.setLevel(logging.ERROR)
+logger.addHandler(error_handler)
 
 # Configuration
-current_date = time.strftime("%Y%m%d", time.localtime())
 DEVICE = 'cuda' if cuda.is_available() else 'cpu'
 MODEL_NAME_TEMA = "azmina/ia_feminista_tema"
 MODEL_NAME_POSICAO = "azmina/ia-feminista-bert-posicao"
