@@ -9,6 +9,12 @@ from transformers import (
     PreTrainedModel
 )
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 
 def load_model_and_tokenizer(
     model_name: str,
