@@ -94,12 +94,18 @@ if __name__ == "__main__":
         for file in files:
             # Load input data
             logger.info(f"Processing file: {file}")
-            df = pd.read_csv(file)
 
-            # Skip processing if DataFrame is empty
-            if df.empty:
-                logger.warning(f"Skipping {file} - CSV file has no data.")
+            # Skip processing if file doesn't exist
+            if not os.path.exists(file):
+                logger.warning(f"File {file} does not exist. Skipping...")
                 continue
+
+            # Skip processing if file is empty
+            if os.path.getsize(file) == 0:
+                logger.warning(f"File {file} is empty. Skipping...")
+                continue
+
+            df = pd.read_csv(file)
 
             # Process for `tema` columns
             logger.info("Processing tema classification")
@@ -118,6 +124,11 @@ if __name__ == "__main__":
                 df["posicao_llm"] = df["texto"].apply(lambda x: inference(x, API_TOKEN))
                 # Drop full text
                 df.drop(columns=["texto"], inplace=True)
+                logger.info("Averaging the final score")
+                # Convert to int
+                df["posicao_llm"] = df["posicao_llm"].apply(lambda x: int(x))
+                # Take the mean of probabilities and posicao_llm
+                df["classification_posicao_final"] = df[["probabilities", "posicao_llm"]].mean(axis=1)
 
             # Save the updated DataFrame back to the same file
             df.to_csv(file, index=False)
