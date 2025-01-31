@@ -88,6 +88,7 @@ TOKENIZER_NAME = "neuralmind/bert-base-portuguese-cased"
 from dotenv import load_dotenv
 load_dotenv()
 API_TOKEN = os.getenv('REPLICATE_KEY') 
+MODEL = os.getenv('MODEL', 'meta/meta-llama-3-70b-instruct')
 
 # Rule-based classification
 THEMES = {
@@ -148,7 +149,7 @@ if __name__ == "__main__":
                 logger.info("Getting text from PDF")
                 df["texto"] = df["urlInteiroTeor"].apply(textfrompdf)
                 logger.info("Classifying full text")
-                df["posicao_llm"] = df["texto"].apply(lambda x: inference(x, API_TOKEN))
+                df["posicao_llm"] = df["texto"].apply(lambda x: inference(x, API_TOKEN, MODEL))
                 # Drop full text
                 df.drop(columns=["texto"], inplace=True)
                 logger.info("Averaging the final score")
