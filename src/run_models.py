@@ -37,7 +37,6 @@ import torch
 import pandas as pd  
 import time, os  
 import logging 
-from typing import Dict  
 from transformers import AutoConfig
 
 # Custom functions
@@ -96,7 +95,7 @@ if __name__ == "__main__":
             # Load input data
             logger.info(f"Processing file: {file}")
             df = pd.read_csv(file)
-            
+
             # Skip processing if DataFrame is empty
             if df.empty:
                 logger.warning(f"Skipping {file} - CSV file has no data.")
@@ -111,7 +110,7 @@ if __name__ == "__main__":
             df = df.apply(lambda row: process_row_posicao(row, model_class, tokenizer_class, class_mapping_class, DEVICE), axis=1)
 
             # Check if file startwith camara and token exists
-            if file.startswith("camara"):
+            if file.startswith("camara") and API_TOKEN:
                 # Process for `classification` columns
                 logger.info("Getting text from PDF")
                 df["texto"] = df["urlInteiroTeor"].apply(textfrompdf)
