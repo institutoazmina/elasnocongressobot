@@ -2,3 +2,10 @@ dados/*
 __pycache__
 logs/*
 .env
+src/camara*.csv
+src/senado*.csv
+src/camara.csv
+src/senado.csv
+nohup.out
+src/nohup.out
+output.csv
