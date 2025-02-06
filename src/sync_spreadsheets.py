@@ -46,7 +46,6 @@ cols_camara = [
     "uriPropPosterior",
     "urlInteiroTeor",
     "urnFinal",
-    "texto",
     "justificativa",
     "dataApresentacao",
     "horaApresentacao",
