@@ -133,19 +133,26 @@ def update_csv(input_file, existing_file):
         write_csv(existing_file, input_rows)
         return
 
-    existing_rows = read_csv(existing_file)
+    # Read DataFrames instead of lists for column alignment
+    input_df = pd.read_csv(input_file)
+    
+    if not os.path.exists(existing_file):
+        input_df.to_csv(existing_file, index=False)
+        return
 
-    # Assuming the id column is the first one
-    input_ids = {row[0] for row in input_rows}
+    existing_df = pd.read_csv(existing_file)
+
+    # Align columns (add missing columns to both DataFrames)
+    combined_columns = list(input_df.columns) + [col for col in existing_df.columns if col not in input_df.columns]
+    input_df = input_df.reindex(columns=combined_columns, fill_value=None)
+    existing_df = existing_df.reindex(columns=combined_columns, fill_value=None)
 
     # Remove duplicates
-    unique_existing_rows = [row for row in existing_rows if row[0] not in input_ids]
+    existing_df = existing_df[~existing_df['id'].isin(input_df['id'])]
 
-    # Prepend new rows
-    final_rows = input_rows + unique_existing_rows
-
-    # Write to existing file
-    write_csv(existing_file, final_rows)
+    # Concatenate and save
+    final_df = pd.concat([input_df, existing_df], ignore_index=True)
+    final_df.to_csv(existing_file, index=False)
 
 
 def update_sheet(sheet, file_name, columns):
@@ -156,7 +163,8 @@ def update_sheet(sheet, file_name, columns):
     # Read the CSV file into a DataFrame
     df = pd.read_csv(file_name)
 
-    df = df[columns]
+    # Reindex columns to match predefined list, filling missing ones with None
+    df = df.reindex(columns=columns, fill_value=None)
 
     # Clear the sheet
     sheet.clear()
