@@ -57,7 +57,7 @@ def update_csv(input_file, existing_file):
         return
 
     input_df = pd.read_csv(input_file)
-    if df.empty:
+    if input_df.empty:
         return
 
     input_df = validate_columns(input_df, "camara" if input_file.startswith("camara") else "senado")
