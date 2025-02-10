@@ -47,6 +47,10 @@ def update_csv(input_file, existing_file):
     and, finally, writes the new result CSV.
     """
     input_rows = read_csv(input_file)
+    
+    # The input file may be empty
+    if os.path.getsize(input_file) == 0:
+        return
 
     """"
     The existing CSV may have not been created yet, so we need to check if it exists.
@@ -57,8 +61,6 @@ def update_csv(input_file, existing_file):
         return
 
     input_df = pd.read_csv(input_file)
-    if input_df.empty:
-        return
 
     input_df = validate_columns(input_df, "camara" if input_file.startswith("camara") else "senado")
 
