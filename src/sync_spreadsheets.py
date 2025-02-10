@@ -8,6 +8,8 @@ import os
 from dotenv import load_dotenv
 import logging
 import sys
+from utils_df_validation import validate_columns
+from df_config import COLUMNS
 
 """
 Script that syncs the spreadsheet maintained on the Google Drive
@@ -24,85 +26,6 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
-
-cols_camara = [
-    "id",
-    "urlTramitacao",
-    "dataDaTramitacao",
-    "horaDaTramitacao",
-    "nomeDoProjeto",
-    "autor",
-    "cargo",
-    "descricaoTipo",
-    "descricaoSituacao",
-    "descricaoTramitacao",
-    "despacho",
-    "ementa",
-    "codTipo",
-    "ementaDetalhada",
-    "keywords",
-    "uriPropPrincipal",
-    "uriPropAnterior",
-    "uriPropPosterior",
-    "urlInteiroTeor",
-    "urnFinal",
-    "justificativa",
-    "dataApresentacao",
-    "horaApresentacao",
-    "sequencia",
-    "siglaOrgao",
-    "uriOrgao",
-    "uriUltimoRelator",
-    "regime",
-    "uriOrgaoNumerador",
-    "codTipoTramitacao",
-    "uriAutores",
-    "codSituacao",
-    "despacho",
-    "url",
-    "ambito",
-    "apreciacao",
-    "temas",
-    "tema_1",
-    "tema_2",
-    "classification",
-    "probabilities",
-    "posicao_llm",
-    "classification_posicao_final"
-]
-
-cols_senado = [
-    "CodigoMateria",
-    "UrlTramitacao",
-    "DataDaTramitação",
-    "HoraDaTramitação",
-    "NomedoProjeto",
-    "Autor",
-    "MovimentacaoDescricaoSituacao",
-    "MovimentacaoDescricao",
-    "Ementa",
-    "NumeroMateria",
-    "AnoMateria",
-    "IdentificacaoProcesso",
-    "IndicadorTramitando",
-    "DataApresentacao",
-    "SiglaCasaIdentificacaoMateria",
-    "NomeCasaIdentificacaoMateria",
-    "SiglaSubtipoMateria",
-    "temas",
-    "ApelidoMateria",
-    "CasaIniciadoraNoLegislativo",
-    "NumeroRepublicacaoMpv",
-    "IndicadorComplementar",
-    "DataAssinatura",
-    "AssuntoEspecificoCod",
-    "AssuntoEspecificoDesc",
-    "AssuntoGeralCod",
-    "AssuntoGeralDesc",
-    "tema_1",
-    "tema_2"
-]
-
 
 def read_csv(file_name):
     "Read the CSV"
@@ -133,24 +56,18 @@ def update_csv(input_file, existing_file):
         write_csv(existing_file, input_rows)
         return
 
-    # Read DataFrames instead of lists for column alignment
     input_df = pd.read_csv(input_file)
-    
+    input_df = validate_columns(input_df, dataset)
+
     if not os.path.exists(existing_file):
         input_df.to_csv(existing_file, index=False)
         return
 
     existing_df = pd.read_csv(existing_file)
-
-    # Align columns (add missing columns to both DataFrames)
-    combined_columns = list(input_df.columns) + [col for col in existing_df.columns if col not in input_df.columns]
-    input_df = input_df.reindex(columns=combined_columns, fill_value=None)
-    existing_df = existing_df.reindex(columns=combined_columns, fill_value=None)
+    existing_df = validate_columns(existing_df, dataset)
 
     # Remove duplicates
-    existing_df = existing_df[~existing_df['id'].isin(input_df['id'])]
-
-    # Concatenate and save
+    existing_df = existing_df[~existing_df["id"].isin(input_df["id"])]
     final_df = pd.concat([input_df, existing_df], ignore_index=True)
     final_df.to_csv(existing_file, index=False)
 
@@ -201,7 +118,7 @@ if __name__ == "__main__":
     current_date = datetime.now().strftime("%Y%m%d")
 
     update_csv(f"camara_{current_date}.csv", "camara.csv")
-    update_sheet(sheet_camara, "camara.csv", cols_camara)
+    update_sheet(sheet_camara, "camara.csv", COLUMNS["camara"])
 
     update_csv(f"senado_{current_date}.csv", "senado.csv")
-    update_sheet(sheet_senado, "senado.csv", cols_senado)
+    update_sheet(sheet_senado, "senado.csv", COLUMNS["senado"])

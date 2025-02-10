@@ -45,7 +45,7 @@ class SenadoSpider(XMLFeedSpider):
         tries = 1
         try:
             item = dict()
-            item["CodigoMateria"] = node.xpath(
+            item["id"] = node.xpath(
                 "IdentificacaoMateria/CodigoMateria/text()"
             ).extract_first()
             item["SiglaCasaIdentificacaoMateria"] = node.xpath(

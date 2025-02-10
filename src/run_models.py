@@ -44,6 +44,7 @@ from transformers import AutoConfig
 # Custom functions
 from utils_inteiroteor import textfrompdf, inference 
 from utils_ementa import load_model_and_tokenizer, process_row_tema, process_row_posicao 
+from utils_df_validation import validate_columns
 
 # Configure logging
 log_directory = Path().absolute().parent / 'logs'
@@ -134,6 +135,9 @@ if __name__ == "__main__":
                 continue
 
             df = pd.read_csv(file)
+            
+            # If it is the first file, then it's "camara", else it's "senado"
+            df = validate_columns(df, "camara" if file.startswith("camara") else "senado")
 
             # Process for `tema` columns
             logger.info("Processing tema classification")
