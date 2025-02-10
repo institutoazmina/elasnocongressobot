@@ -57,14 +57,14 @@ def update_csv(input_file, existing_file):
         return
 
     input_df = pd.read_csv(input_file)
-    input_df = validate_columns(input_df, dataset)
+    input_df = validate_columns(input_df, "camara" if file.startswith("camara") else "senado")
 
     if not os.path.exists(existing_file):
         input_df.to_csv(existing_file, index=False)
         return
 
     existing_df = pd.read_csv(existing_file)
-    existing_df = validate_columns(existing_df, dataset)
+    existing_df = validate_columns(existing_df, "camara" if file.startswith("camara") else "senado")
 
     # Remove duplicates
     existing_df = existing_df[~existing_df["id"].isin(input_df["id"])]
