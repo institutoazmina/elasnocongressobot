@@ -4,6 +4,7 @@ from scrapy.exporters import CsvItemExporter
 import redis
 from datetime import datetime, timedelta
 from .theme_assert import assert_theme
+import logging
 
 """
 This is the spider (https://docs.scrapy.org/en/latest/topics/spiders.html)
@@ -85,7 +86,7 @@ class SenadoSpider(XMLFeedSpider):
 
             "Colunas/Dados construídos com concatenação"
             item["UrlTramitacao"] = (
-                f"https://www25.senado.leg.br/web/atividade/materias/-/materia/{item['CodigoMateria']}"
+                f"https://www25.senado.leg.br/web/atividade/materias/-/materia/{item['id']}"
             )
 
             theme_assertion = assert_theme({"Ementa": item["Ementa"]})
@@ -94,10 +95,10 @@ class SenadoSpider(XMLFeedSpider):
 
                 current_date = datetime.now().isoformat()
                 self.redis.set(
-                    "savepoint_senado", f'{item["CodigoMateria"]}, {current_date}'
+                    "savepoint_senado", f'{item["id"]}, {current_date}'
                 )
 
-                row_url = f"https://legis.senado.leg.br/dadosabertos/materia/{item['CodigoMateria']}"
+                row_url = f"https://legis.senado.leg.br/dadosabertos/materia/{item['id']}"
                 row_request = scrapy.Request(row_url, callback=self.parse_row_data)
                 row_request.meta["item"] = item
                 yield row_request
@@ -105,7 +106,7 @@ class SenadoSpider(XMLFeedSpider):
         except Exception:
             logging.info(f"Erro ao processar linha, tentativa: {tries}")
             self.redis.set(
-                f'savepoint_senado_erro:{item["CodigoMateria"]}', f"{current_date}"
+                f'savepoint_senado_erro:{item["id"]}', f"{current_date}"
             )
             if tries < 3:
                 tries += 1
