@@ -38,6 +38,7 @@ import pandas as pd
 import time, os  
 import logging 
 import sys
+import replicate
 from tenacity import Retrying, wait_fixed, retry_if_exception_type, stop_after_attempt
 from pathlib import Path
 from transformers import AutoConfig
@@ -157,7 +158,8 @@ if __name__ == "__main__":
                 def safe_inference(text):
                     for attempt in Retrying(
                         stop=stop_after_attempt(3),
-                        wait=wait_fixed(12),  # 12-second delay between ALL requests
+                        wait=wait_fixed(12),
+                        # Explicitly reference ReplicateError via the module
                         retry=retry_if_exception_type(replicate.exceptions.ReplicateError)
                     ):
                         with attempt:
