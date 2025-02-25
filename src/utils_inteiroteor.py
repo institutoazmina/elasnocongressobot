@@ -2,6 +2,9 @@ import replicate
 from PyPDF2 import PdfReader
 import os
 import requests
+import time
+import logging
+logger = logging.getLogger(__name__)
 
 def textfrompdf(url: str, filename: str = "downloaded_file.pdf") -> str:
     """
@@ -94,7 +97,33 @@ def inference(prompt: str, api_token: str, model: str = "meta/meta-llama-3-70b-i
             "presence_penalty": 1.15
         }
 
-        output: str = ""
+        max_retries = 3
+        retry_delay = 11
+        attempt = 0
+        output = ""
+
+        while attempt < max_retries:
+            try:
+                for event in replicate_client.stream(model, input=input_data):
+                    output += event.data
+                break  # Success case
+            except replicate.exceptions.ReplicateError as e:
+                # Check for HTTP 429 status code
+                if hasattr(e, 'status_code') and e.status_code == 429:
+                    attempt += 1
+                    if attempt < max_retries:
+                        logger.warning(f"Rate limited (HTTP 429). Retrying in {retry_delay}s (attempt {attempt}/{max_retries})")
+                        time.sleep(retry_delay)
+                        continue
+                    else:
+                        raise replicate.exceptions.ReplicateError(
+                            f"Failed after {max_retries} retries: {str(e)}"
+                        )
+                else:
+                    raise  # Re-raise non-429 errors
+            except Exception as e:
+                raise  # Re-raise other exceptions
+
         for event in replicate_client.stream(model, input=input_data):
             output += event.data
 
