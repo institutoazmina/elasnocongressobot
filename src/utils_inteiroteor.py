@@ -4,7 +4,17 @@ import os
 import requests
 import time
 import logging
+from tenacity import (
+    retry,
+    retry_if_exception,
+    stop_after_attempt,
+    wait_exponential,
+    before_sleep_log
+)
 logger = logging.getLogger(__name__)
+
+def is_rate_limit_error(exception):
+    return isinstance(exception, replicate.exceptions.ReplicateError) and getattr(exception, "status", None) == 429
 
 def textfrompdf(url: str, filename: str = "downloaded_file.pdf") -> str:
     """
@@ -52,6 +62,12 @@ def textfrompdf(url: str, filename: str = "downloaded_file.pdf") -> str:
         return f"An error occurred while reading the PDF: {e}"
 
 
+@retry(
+    retry=retry_if_exception(is_rate_limit_error),
+    stop=stop_after_attempt(5),
+    wait=wait_exponential(multiplier=11, min=11, max=120),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+)
 def inference(prompt: str, api_token: str, model: str = "meta/meta-llama-3-70b-instruct") -> str:
     """
     Perform inference using the Replicate API.

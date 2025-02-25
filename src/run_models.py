@@ -38,6 +38,7 @@ import pandas as pd
 import time, os  
 import logging 
 import sys
+from tenacity import Retrying, wait_fixed, retry_if_exception_type, stop_after_attempt
 from pathlib import Path
 from transformers import AutoConfig
 
@@ -153,7 +154,16 @@ if __name__ == "__main__":
                 logger.info("Getting text from PDF")
                 df["texto"] = df["urlInteiroTeor"].apply(textfrompdf)
                 logger.info("Classifying full text")
-                df["posicao_llm"] = df["texto"].apply(lambda x: inference(x, API_TOKEN, MODEL))
+                def safe_inference(text):
+                    for attempt in Retrying(
+                        stop=stop_after_attempt(3),
+                        wait=wait_fixed(12),  # 12-second delay between ALL requests
+                        retry=retry_if_exception_type(replicate.exceptions.ReplicateError)
+                    ):
+                        with attempt:
+                            return inference(text, API_TOKEN, MODEL)
+                    
+                df["posicao_llm"] = df["texto"].apply(safe_inference)
                 # Drop full text
                 df.drop(columns=["texto"], inplace=True)
                 logger.info("Averaging the final score")
