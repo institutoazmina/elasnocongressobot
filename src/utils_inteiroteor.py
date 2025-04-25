@@ -140,9 +140,6 @@ def inference(prompt: str, api_token: str, model: str = "meta/meta-llama-3-70b-i
             except Exception as e:
                 raise  # Re-raise other exceptions
 
-        for event in replicate_client.stream(model, input=input_data):
-            output += event.data
-
         # Remove empty curly braces from the output
         output = output.replace("{}", "")
         return output
