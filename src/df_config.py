@@ -73,6 +73,8 @@ COLUMNS = {
         "AssuntoGeralCod",
         "AssuntoGeralDesc",
         "tema_1",
-        "tema_2"
+        "tema_2",
+        "classification",
+        "probabilities"
     ]
 }
