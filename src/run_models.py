@@ -49,8 +49,8 @@ from utils_ementa import load_model_and_tokenizer, process_row_tema, process_row
 from utils_df_validation import validate_columns
 
 # Configure logging
-log_directory = Path().absolute().parent / 'logs'
-log_directory.mkdir(exist_ok=True)
+#log_directory = Path().absolute().parent / 'logs'
+#log_directory.mkdir(exist_ok=True)
 
 current_date = time.strftime("%Y%m%d", time.localtime())
 log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -68,18 +68,18 @@ console_handler.setFormatter(log_formatter)
 logger.addHandler(console_handler)
 
 # File handler for general logs
-general_log_file = log_directory / f'model_processing_{current_date}.log'
-file_handler = logging.FileHandler(general_log_file)
-file_handler.setFormatter(log_formatter)
-file_handler.setLevel(logging.INFO)
-logger.addHandler(file_handler)
+#general_log_file = log_directory / f'model_processing_{current_date}.log'
+#file_handler = logging.FileHandler(general_log_file)
+#file_handler.setFormatter(log_formatter)
+#file_handler.setLevel(logging.INFO)
+#logger.addHandler(file_handler)
 
 # File handler for errors
-error_log_file = log_directory / f'model_errors_{current_date}.log'
-error_handler = logging.FileHandler(error_log_file)
-error_handler.setFormatter(log_formatter)
-error_handler.setLevel(logging.ERROR)
-logger.addHandler(error_handler)
+#error_log_file = log_directory / f'model_errors_{current_date}.log'
+#error_handler = logging.FileHandler(error_log_file)
+#error_handler.setFormatter(log_formatter)
+#error_handler.setLevel(logging.ERROR)
+#logger.addHandler(error_handler)
 
 # Configuration
 DEVICE = 'cuda' if cuda.is_available() else 'cpu'
@@ -156,22 +156,32 @@ if __name__ == "__main__":
                 df["texto"] = df["urlInteiroTeor"].apply(textfrompdf)
                 logger.info("Classifying full text")
                 def safe_inference(text):
-                    for attempt in Retrying(
-                        stop=stop_after_attempt(3),
-                        wait=wait_fixed(12),
-                        # Explicitly reference ReplicateError via the module
-                        retry=retry_if_exception_type(replicate.exceptions.ReplicateError)
-                    ):
-                        with attempt:
-                            return inference(text, API_TOKEN, MODEL)
+                    # Check for invalid text returned by textfrompdf
+                    if not text or not isinstance(text, str) or text.startswith("Failed to download") or text.startswith("An error occurred") or text.startswith("URL is empty"):
+                        logger.warning(f"Skipping inference due to invalid or empty text.")
+                        return None # Return None to prevent error
+
+                    try:
+                        for attempt in Retrying(
+                            stop=stop_after_attempt(3),
+                            wait=wait_fixed(12),
+                            retry=retry_if_exception_type(replicate.exceptions.ReplicateError)
+                        ):
+                            with attempt:
+                                return inference(text, API_TOKEN, MODEL)
+                    except Exception as e:
+                        logger.error(f"Inference failed after all retries: {e}")
+                        return None # Return None if all retries fail
                     
                 df["posicao_llm"] = df["texto"].apply(safe_inference)
                 # Drop full text
                 df.drop(columns=["texto"], inplace=True)
                 logger.info("Averaging the final score")
-                # Convert to int
-                df["posicao_llm"] = df["posicao_llm"].apply(lambda x: int(x))
-                # Take the mean of probabilities and posicao_llm
+                
+                # Convert 'posicao_llm' to numeric, coercing errors (like None) to NaN
+                df["posicao_llm"] = pd.to_numeric(df["posicao_llm"], errors='coerce')
+                
+                # The mean function will now correctly ignore NaN values
                 df["classification_posicao_final"] = df[["probabilities", "posicao_llm"]].mean(axis=1)
 
             # Save the updated DataFrame back to the same file

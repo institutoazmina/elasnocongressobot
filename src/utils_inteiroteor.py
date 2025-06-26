@@ -113,38 +113,17 @@ def inference(prompt: str, api_token: str, model: str = "meta/meta-llama-3-70b-i
             "presence_penalty": 1.15
         }
 
-        max_retries = 3
-        retry_delay = 11
-        attempt = 0
+        # The @retry decorator handles rate limiting. The manual while loop is removed.
         output = ""
-
-        while attempt < max_retries:
-            try:
-                for event in replicate_client.stream(model, input=input_data):
-                    output += event.data
-                break  # Success case
-            except replicate.exceptions.ReplicateError as e:
-                # Check for HTTP 429 status code
-                if hasattr(e, 'status_code') and e.status_code == 429:
-                    attempt += 1
-                    if attempt < max_retries:
-                        logger.warning(f"Rate limited (HTTP 429). Retrying in {retry_delay}s (attempt {attempt}/{max_retries})")
-                        time.sleep(retry_delay)
-                        continue
-                    else:
-                        raise replicate.exceptions.ReplicateError(
-                            f"Failed after {max_retries} retries: {str(e)}"
-                        )
-                else:
-                    raise  # Re-raise non-429 errors
-            except Exception as e:
-                raise  # Re-raise other exceptions
+        for event in replicate_client.stream(model, input=input_data):
+            output += event.data
 
         # Remove empty curly braces from the output
         output = output.replace("{}", "")
         return output
 
     except replicate.exceptions.ReplicateError as e:
-        raise replicate.exceptions.ReplicateError(f"Replicate API error: {e}")
+        # Re-raise the exception to be handled by the @retry decorator or the caller
+        raise
     except Exception as e:
         raise Exception(f"An unexpected error occurred: {e}")
