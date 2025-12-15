@@ -1,4 +1,4 @@
-gspread==6.1.4
+gspread==6.2.1
 gspread_dataframe==4.0.0
 oauth2client==4.1.3
 pandas==2.2.3
