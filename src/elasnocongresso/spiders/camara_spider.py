@@ -201,6 +201,8 @@ class CamaraSpider(XMLFeedSpider):
 
         item["autor"] = response.xpath("//autor/nome/text()").extract_first()
         item["cargo"] = response.xpath("//autor/tipo/text()").extract_first()
+        item["sexo"] = response.xpath("//autor/sexo/text()").extract_first()
+        item["partido"] = response.xpath("//autor/siglaPartido/text()").extract_first()
 
         self.exporter.export_item(item)
         return item

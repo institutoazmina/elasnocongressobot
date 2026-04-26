@@ -26,6 +26,96 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+client = gspread.authorize(creds)
+
+"""
+Find a workbook by name and open the first and second sheet
+Make sure you use the right names here.
+"""
+"0 refers to first sheet"
+sheet_camara = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(0)
+"1 refers to second sheet"
+sheet_senado = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(1)
+
+cols_camara = [
+    "id",
+    "urlTramitacao",
+    "dataDaTramitacao",
+    "horaDaTramitacao",
+    "nomeDoProjeto",
+    "autor",
+    "cargo",
+    "descricaoTipo",
+    "descricaoSituacao",
+    "descricaoTramitacao",
+    "despacho",
+    "ementa",
+    "codTipo",
+    "ementaDetalhada",
+    "keywords",
+    "uriPropPrincipal",
+    "uriPropAnterior",
+    "uriPropPosterior",
+    "urlInteiroTeor",
+    "urnFinal",
+    "texto",
+    "justificativa",
+    "dataApresentacao",
+    "horaApresentacao",
+    "sequencia",
+    "siglaOrgao",
+    "uriOrgao",
+    "uriUltimoRelator",
+    "regime",
+    "uriOrgaoNumerador",
+    "codTipoTramitacao",
+    "uriAutores",
+    "codSituacao",
+    "despacho",
+    "url",
+    "ambito",
+    "apreciacao",
+    "temas",
+    "tema_1",
+    "tema_2",
+    "sexo",
+    "partido"
+]
+
+cols_senado = [
+    "CodigoMateria",
+    "UrlTramitacao",
+    "DataDaTramitação",
+    "HoraDaTramitação",
+    "NomedoProjeto",
+    "Autor",
+    "MovimentacaoDescricaoSituacao",
+    "MovimentacaoDescricao",
+    "Ementa",
+    "NumeroMateria",
+    "AnoMateria",
+    "IdentificacaoProcesso",
+    "IndicadorTramitando",
+    "DataApresentacao",
+    "SiglaCasaIdentificacaoMateria",
+    "NomeCasaIdentificacaoMateria",
+    "SiglaSubtipoMateria",
+    "temas",
+    "ApelidoMateria",
+    "CasaIniciadoraNoLegislativo",
+    "NumeroRepublicacaoMpv",
+    "IndicadorComplementar",
+    "DataAssinatura",
+    "AssuntoEspecificoCod",
+    "AssuntoEspecificoDesc",
+    "AssuntoGeralCod",
+    "AssuntoGeralDesc",
+    "tema_1",
+    "tema_2",
+    "AutorSexo",
+    "AutorPartido"
+]
+
 
 def read_csv(file_name):
     "Read the CSV"
@@ -47,7 +137,7 @@ def update_csv(input_file, existing_file):
     and, finally, writes the new result CSV.
     """
     input_rows = read_csv(input_file)
-    
+
     # The input file may be empty
     if os.path.getsize(input_file) == 0:
         return
