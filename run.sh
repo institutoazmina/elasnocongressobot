@@ -1,9 +1,7 @@
 #!/bin/bash
 
-date >> logs/docker.elasnocongresso.log
-cd src/
-python3 -m scrapy crawl camara 1>> ../logs/crawl_camara.log 2>> ../logs/crawl_camara.err.log;
-python3 -m scrapy crawl senado 1>> ../logs/crawl_senado.log 2>> ../logs/crawl_senado.err.log;
-python3 run_models.py
-python3 sync_spreadsheets.py
-
+# docker compose exec -T elasnacamera bash -c "cd src && python3 -m scrapy crawl camara"
+docker compose exec -T elasnacamera bash -c "cd src && python3 -m scrapy crawl camara -a date_from=2025-04-13 -a date_to=2026-03-31"
+docker compose exec -T elasnacamera bash -c "cd src && python3 -m scrapy crawl senado -a date_from=2025-04-13 -a date_to=2026-03-31"
+# docker compose exec -T elasnacamera bash -c "cd src && python3 run_models.py"
+# docker compose exec -T elasnacamera bash -c "cd src && python3 sync_spreadsheets.py"

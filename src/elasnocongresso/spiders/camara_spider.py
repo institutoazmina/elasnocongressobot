@@ -1,3 +1,5 @@
+import logging
+import os
 import scrapy
 from scrapy.spiders import XMLFeedSpider
 from scrapy.exporters import CsvItemExporter
@@ -5,43 +7,65 @@ import redis
 from datetime import datetime, timedelta
 from .theme_assert import assert_theme
 
+DATA_DIR = os.environ.get("DATA_DIR", "/data")
+LOG_DIR = os.environ.get("LOG_DIR", "/logs")
+
 """
 This is the spider (https://docs.scrapy.org/en/latest/topics/spiders.html)
 that scrapes the data for the Câmara (lower chamber)
 """
 
-"Legacy rule that defines the date range of the scraper: Captura o dia, mês e ano de ontem"
-dia_anterior = (datetime.now() - timedelta(1)).strftime("%d")
-mes_anterior = (datetime.now() - timedelta(1)).strftime("%m")
-ano_anterior = (datetime.now() - timedelta(1)).strftime("%Y")
-
-"Legacy rule that defines the date range of the scraper: Captura o dia, mês e ano de amanha (assim nao preciso mudar o codigo para remover o parametro data_ate)"
-now = datetime.now()
-dia_hoje = (datetime.now() + timedelta(1)).strftime("%d")
-mes_hoje = (datetime.now() + timedelta(1)).strftime("%m")
-ano_hoje = (datetime.now() + timedelta(1)).strftime("%Y")
+BASE_URL = "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio={}&dataFim={}&ordem=ASC&ordenarPor=id&itens=100"
 
 
 class CamaraSpider(XMLFeedSpider):
     "Definition of basic configs of the Spider and the rules for its iterations"
 
-    url = (
-        "https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=%s-%s-%s&dataFim=%s-%s-%s&ordem=ASC&ordenarPor=id&itens=100"
-        % (ano_anterior, mes_anterior, dia_anterior, ano_hoje, mes_hoje, dia_hoje)
-    )
     name = "camara"
     allowed_domains = ["dadosabertos.camara.leg.br"]
-    start_urls = [url]
     iterator = "iternodes"
     itertag = "proposicao_"
 
-    def __init__(self):
+    def __init__(self, date_from=None, date_to=None, *args, **kwargs):
         "Init using Redis for caching and savepoint, and also versioning the output file with the current YMD."
+        super().__init__(*args, **kwargs)
+        yesterday = datetime.now() - timedelta(1)
+        self.date_from = datetime.strptime(date_from, "%Y-%m-%d") if date_from else yesterday
+        self.date_to = datetime.strptime(date_to, "%Y-%m-%d") if date_to else yesterday
+        self.items_exported = 0
+        self.items_seen = 0
+
         current_date = datetime.now().strftime("%Y%m%d")
-        self.file = open("camara_%s.csv" % (current_date), "wb")
+        self.file = open(os.path.join(DATA_DIR, f"camara_{current_date}.csv"), "wb")
         self.exporter = CsvItemExporter(self.file)
         self.exporter.start_exporting()
         self.redis = redis.Redis(host="redis", port=6379, db=0)
+
+        log_handler = logging.FileHandler(
+            os.path.join(LOG_DIR, f"camara_{current_date}.log")
+        )
+        log_handler.setFormatter(
+            logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s")
+        )
+        logging.getLogger().addHandler(log_handler)
+
+    def start_requests(self):
+        "Logs the execution plan and generates one request per day in the date range."
+        total_days = (self.date_to - self.date_from).days + 1
+        logging.info(
+            "[camara] Plano de execução:\n"
+            "  Período : %s → %s\n"
+            "  Dias    : %d\n"
+            "  Janela  : 1 dia por requisição",
+            self.date_from.strftime("%Y-%m-%d"),
+            self.date_to.strftime("%Y-%m-%d"),
+            total_days,
+        )
+        current = self.date_from
+        while current <= self.date_to:
+            day_str = current.strftime("%Y-%m-%d")
+            yield scrapy.Request(BASE_URL.format(day_str, day_str), callback=self._parse)
+            current += timedelta(1)
 
     def parse_node(self, response, node):
         """
@@ -172,13 +196,12 @@ class CamaraSpider(XMLFeedSpider):
             "//dados/statusProposicao/apreciacao/text()"
         ).extract_first()
 
-        "Colunas/Dados construídos com concatenação."
         item["urlTramitacao"] = (
             f"https://www.camara.leg.br/propostas-legislativas/{item['id']}"
         )
         item["nomeDoProjeto"] = f"{item['siglaTipo']} {item['numero']}/{item['ano']}"
 
-        "Theme assertion function call, that selects only the relevant data."
+        self.items_seen += 1
         theme_assertion = assert_theme(
             {
                 "ementa": item["ementa"],
@@ -202,6 +225,7 @@ class CamaraSpider(XMLFeedSpider):
         item["autor"] = response.xpath("//autor/nome/text()").extract_first()
         item["cargo"] = response.xpath("//autor/tipo/text()").extract_first()
 
+        self.items_exported += 1
         self.exporter.export_item(item)
         return item
 
@@ -214,3 +238,17 @@ class CamaraSpider(XMLFeedSpider):
         "Closing the spider, and exporting the file."
         self.exporter.finish_exporting()
         self.file.close()
+        total_days = (self.date_to - self.date_from).days + 1
+        logging.info(
+            "[camara] Resumo da execução:\n"
+            "  Período    : %s → %s (%d dia(s))\n"
+            "  Proposições vistas     : %d\n"
+            "  Proposições exportadas : %d (filtro temático)\n"
+            "  Arquivo de saída       : %s",
+            self.date_from.strftime("%Y-%m-%d"),
+            self.date_to.strftime("%Y-%m-%d"),
+            total_days,
+            self.items_seen,
+            self.items_exported,
+            self.file.name,
+        )

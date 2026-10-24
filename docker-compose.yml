@@ -4,6 +4,8 @@ services:
     container_name: elasnacamera
     volumes:
       - ./:/usr/src/app/
+      - ./logs:/logs
+      - ./data:/data
     networks:
       - elasnacamera_network
     logging:

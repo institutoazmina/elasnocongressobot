@@ -1,41 +1,71 @@
+import logging
+import os
 import scrapy
 from scrapy.spiders import XMLFeedSpider
 from scrapy.exporters import CsvItemExporter
 import redis
 from datetime import datetime, timedelta
 from .theme_assert import assert_theme
-import logging
+
+DATA_DIR = os.environ.get("DATA_DIR", "/data")
+LOG_DIR = os.environ.get("LOG_DIR", "/logs")
 
 """
 This is the spider (https://docs.scrapy.org/en/latest/topics/spiders.html)
 that scrapes the data for the Senado (upper chamber).
 """
 
+BASE_URL = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data={}"
+
 
 class SenadoSpider(XMLFeedSpider):
     "Definition of basic configs of the Spider and the rules for its iterations"
 
-    dia_anterior = (datetime.now() - timedelta(1)).strftime("%d")
-    mes_anterior = (datetime.now() - timedelta(1)).strftime("%m")
-    ano_anterior = (datetime.now() - timedelta(1)).strftime("%Y")
-    url = "http://legis.senado.leg.br/dadosabertos/materia/tramitando?data=%s%s%s" % (
-        ano_anterior,
-        mes_anterior,
-        dia_anterior,
-    )
     name = "senado"
     allowed_domains = ["legis.senado.leg.br"]
-    start_urls = [url]
     iterator = "iternodes"
     itertag = "Materia"
 
-    def __init__(self):
+    def __init__(self, date_from=None, date_to=None, *args, **kwargs):
         "Init using Redis for caching and savepoint, and also versioning the output file with the current YMD."
+        super().__init__(*args, **kwargs)
+        yesterday = datetime.now() - timedelta(1)
+        self.date_from = datetime.strptime(date_from, "%Y-%m-%d") if date_from else yesterday
+        self.date_to = datetime.strptime(date_to, "%Y-%m-%d") if date_to else yesterday
+
         current_date = datetime.now().strftime("%Y%m%d")
-        self.file = open(f"senado_{current_date}.csv", "wb")
+        self.file = open(os.path.join(DATA_DIR, f"senado_{current_date}.csv"), "wb")
         self.exporter = CsvItemExporter(self.file)
         self.exporter.start_exporting()
+        self.items_exported = 0
+        self.items_seen = 0
         self.redis = redis.Redis(host="redis", port=6379, db=0)
+
+        log_handler = logging.FileHandler(
+            os.path.join(LOG_DIR, f"senado_{current_date}.log")
+        )
+        log_handler.setFormatter(
+            logging.Formatter("%(asctime)s [%(name)s] %(levelname)s: %(message)s")
+        )
+        logging.getLogger().addHandler(log_handler)
+
+    def start_requests(self):
+        "Logs the execution plan and generates one request per day in the date range."
+        total_days = (self.date_to - self.date_from).days + 1
+        logging.info(
+            "[senado] Plano de execução:\n"
+            "  Período : %s → %s\n"
+            "  Dias    : %d\n"
+            "  Janela  : 1 dia por requisição",
+            self.date_from.strftime("%Y-%m-%d"),
+            self.date_to.strftime("%Y-%m-%d"),
+            total_days,
+        )
+        current = self.date_from
+        while current <= self.date_to:
+            day_str = current.strftime("%Y%m%d")
+            yield scrapy.Request(BASE_URL.format(day_str), callback=self._parse)
+            current += timedelta(1)
 
     def parse_node(self, response, node):
         """
@@ -84,11 +114,11 @@ class SenadoSpider(XMLFeedSpider):
                 .split(" ")
             )
 
-            "Colunas/Dados construídos com concatenação"
             item["UrlTramitacao"] = (
                 f"https://www25.senado.leg.br/web/atividade/materias/-/materia/{item['id']}"
             )
 
+            self.items_seen += 1
             theme_assertion = assert_theme({"Ementa": item["Ementa"]})
             if theme_assertion["row_relevant"]:
                 item["temas"] = ", ".join(theme_assertion["temas"])
@@ -166,9 +196,24 @@ class SenadoSpider(XMLFeedSpider):
             "//InformeLegislativo/Descricao/text()"
         ).extract_first()
 
+        self.items_exported += 1
         self.exporter.export_item(item)
         return item
 
     def close_spider(self, spider):
         self.exporter.finish_exporting()
         self.file.close()
+        total_days = (self.date_to - self.date_from).days + 1
+        logging.info(
+            "[senado] Resumo da execução:\n"
+            "  Período    : %s → %s (%d dia(s))\n"
+            "  Matérias vistas     : %d\n"
+            "  Matérias exportadas : %d (filtro temático)\n"
+            "  Arquivo de saída    : %s",
+            self.date_from.strftime("%Y-%m-%d"),
+            self.date_to.strftime("%Y-%m-%d"),
+            total_days,
+            self.items_seen,
+            self.items_exported,
+            self.file.name,
+        )
