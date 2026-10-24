@@ -47,7 +47,7 @@ def update_csv(input_file, existing_file):
     and, finally, writes the new result CSV.
     """
     input_rows = read_csv(input_file)
-    
+
     # The input file may be empty
     if os.path.getsize(input_file) == 0:
         return
@@ -113,10 +113,10 @@ if __name__ == "__main__":
     Find a workbook by name and open the first and second sheet
     Make sure you use the right names here.
     """
-    "0 refers to first sheet"
-    sheet_camara = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(0)
-    "1 refers to second sheet"
-    sheet_senado = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(1)
+    "1 refers to first sheet"
+    sheet_camara = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(1)
+    "2 refers to second sheet"
+    sheet_senado = client.open(os.getenv("SPREADSHEET_NAME")).get_worksheet(2)
 
 
     # Generate the current date in YMD format
