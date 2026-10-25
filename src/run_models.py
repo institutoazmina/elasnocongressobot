@@ -5,7 +5,7 @@ realizando duas classificações:
 
 1. Classificação temática: identifica até dois temas principais da proposição,
    combinando regras baseadas em palavras-chave com modelos de ML.
-   
+
 2. Classificação de posição: determina se a proposição tem impacto
    positivo ou negativo para questões de gênero e direitos das mulheres.
 
@@ -32,11 +32,11 @@ Os arquivos de entrada devem seguir o padrão:
 
 onde YYYYMMDD é a data atual.
 """
-from torch import cuda  
-import torch  
-import pandas as pd  
-import time, os  
-import logging 
+from torch import cuda
+import torch
+import pandas as pd
+import time, os
+import logging
 import sys
 import replicate
 from tenacity import Retrying, wait_fixed, retry_if_exception_type, stop_after_attempt
@@ -44,8 +44,8 @@ from pathlib import Path
 from transformers import AutoConfig
 
 # Custom functions
-from utils_inteiroteor import textfrompdf, inference 
-from utils_ementa import load_model_and_tokenizer, process_row_tema, process_row_posicao 
+from utils_inteiroteor import textfrompdf, inference
+from utils_ementa import load_model_and_tokenizer, process_row_tema, process_row_posicao
 from utils_df_validation import validate_columns
 
 # Configure logging
@@ -90,8 +90,9 @@ TOKENIZER_NAME = "neuralmind/bert-base-portuguese-cased"
 # Get env variables
 from dotenv import load_dotenv
 load_dotenv()
-API_TOKEN = os.getenv('REPLICATE_KEY') 
+API_TOKEN = os.getenv('REPLICATE_KEY')
 MODEL = os.getenv('MODEL', 'meta/meta-llama-3-70b-instruct')
+DATA_DIR = os.getenv('DATA_DIR','.')
 
 # Rule-based classification
 THEMES = {
@@ -113,14 +114,14 @@ if __name__ == "__main__":
         logger.info("Loading models and tokenizers...")
         model_tema, tokenizer_tema = load_model_and_tokenizer(MODEL_NAME_TEMA, TOKENIZER_NAME, DEVICE)
         model_class, tokenizer_class = load_model_and_tokenizer(MODEL_NAME_POSICAO, TOKENIZER_NAME, DEVICE)
-        
+
         config_tema = AutoConfig.from_pretrained(MODEL_NAME_TEMA)
         config_class = AutoConfig.from_pretrained(MODEL_NAME_POSICAO)
         class_mapping_tema = config_tema.id2label
         class_mapping_class = config_class.id2label
 
         # Define input files
-        files = [f"senado_{current_date}.csv", f"camara_{current_date}.csv"]
+        files = [f"{DATA_DIR}/senado_{current_date}.csv", f"{DATA_DIR}/camara_{current_date}.csv"]
 
         for file in files:
             # Load input data
@@ -137,7 +138,7 @@ if __name__ == "__main__":
                 continue
 
             df = pd.read_csv(file)
-            
+
             # If it is the first file, then it's "camara", else it's "senado"
             df = validate_columns(df, "camara" if file.startswith("camara") else "senado")
 
@@ -172,15 +173,15 @@ if __name__ == "__main__":
                     except Exception as e:
                         logger.error(f"Inference failed after all retries: {e}")
                         return None # Return None if all retries fail
-                    
+
                 df["posicao_llm"] = df["texto"].apply(safe_inference)
                 # Drop full text
                 df.drop(columns=["texto"], inplace=True)
                 logger.info("Averaging the final score")
-                
+
                 # Convert 'posicao_llm' to numeric, coercing errors (like None) to NaN
                 df["posicao_llm"] = pd.to_numeric(df["posicao_llm"], errors='coerce')
-                
+
                 # The mean function will now correctly ignore NaN values
                 df["classification_posicao_final"] = df[["probabilities", "posicao_llm"]].mean(axis=1)
 
