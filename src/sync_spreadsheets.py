@@ -41,6 +41,27 @@ def pick_input_file(data_dir, dataset, date):
     return None
 
 
+# (data, hora) da tramitação de cada dataset
+SORT_COLUMNS = {
+    "camara": ("dataDaTramitacao", "horaDaTramitacao"),
+    "senado": ("DataDaTramitação", "HoraDaTramitação"),
+}
+
+
+def sort_by_tramitacao(df, dataset):
+    """
+    Sort by tramitação date, newest first, breaking ties by time (also newest
+    first). Invalid or empty dates go last.
+    """
+    date_col, hour_col = SORT_COLUMNS[dataset]
+    keys = pd.DataFrame({
+        "date": pd.to_datetime(df[date_col], errors="coerce"),
+        "hour": df[hour_col].fillna("").astype(str),
+    })
+    order = keys.sort_values(["date", "hour"], ascending=False, na_position="last").index
+    return df.loc[order].reset_index(drop=True)
+
+
 def update_csv(input_file, existing_file, dataset):
     """
     Merge the new CSV into the cumulative one (existing_file), keeping the
@@ -57,10 +78,10 @@ def update_csv(input_file, existing_file, dataset):
     else:
         final_df = input_df
 
-    final_df.to_csv(existing_file, index=False)
+    sort_by_tramitacao(final_df, dataset).to_csv(existing_file, index=False)
 
 
-def update_sheet(sheet, file_name, columns):
+def update_sheet(sheet, file_name, dataset):
     """
     This function gets the result CSV that was updated on the update_csv() func
     and then syncs it with the Google spreadsheet.
@@ -69,7 +90,10 @@ def update_sheet(sheet, file_name, columns):
     df = pd.read_csv(file_name)
 
     # Reindex columns to match predefined list, filling missing ones with None
-    df = df.reindex(columns=columns, fill_value=None)
+    df = df.reindex(columns=COLUMNS[dataset], fill_value=None)
+
+    # The sheet is always sorted by tramitação date, newest first
+    df = sort_by_tramitacao(df, dataset)
 
     # Clear the sheet
     sheet.clear()
@@ -107,4 +131,4 @@ if __name__ == "__main__":
         if input_file:
             update_csv(input_file, existing_file, dataset)
         if existing_file.exists():
-            update_sheet(sheet, existing_file, COLUMNS[dataset])
+            update_sheet(sheet, existing_file, dataset)
