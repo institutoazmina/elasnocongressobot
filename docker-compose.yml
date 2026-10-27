@@ -8,6 +8,9 @@ services:
       - ./logs:/logs
       - ./data:/data
       - hugging_cache:/home/app/.cache/huggingface
+    environment:
+      # Nunca baixa modelos em tempo de execução; use src/prefetch_models.py (ver README)
+      - HF_HUB_OFFLINE=1
     networks:
       - elasnacamera_network
     logging:
