@@ -1,3 +1,4 @@
+import httpx
 import replicate
 from PyPDF2 import PdfReader
 import os
@@ -12,6 +13,9 @@ from tenacity import (
     before_sleep_log
 )
 logger = logging.getLogger(__name__)
+
+# Falhas transitórias de conexão (reset, timeout, DNS, SSL); quem chama deve retentar.
+NETWORK_ERRORS = (httpx.TransportError, OSError)
 
 def is_rate_limit_error(exception):
     return isinstance(exception, replicate.exceptions.ReplicateError) and getattr(exception, "status", None) == 429
@@ -124,6 +128,9 @@ def inference(prompt: str, api_token: str, model: str = "meta/meta-llama-3-70b-i
 
     except replicate.exceptions.ReplicateError as e:
         # Re-raise the exception to be handled by the @retry decorator or the caller
+        raise
+    except NETWORK_ERRORS:
+        # Mantém o tipo original para que seja retentado
         raise
     except Exception as e:
         raise Exception(f"An unexpected error occurred: {e}")

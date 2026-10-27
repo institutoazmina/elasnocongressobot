@@ -46,12 +46,12 @@ import time, os
 import logging
 import sys
 import replicate
-from tenacity import Retrying, wait_fixed, retry_if_exception_type, stop_after_attempt
+from tenacity import Retrying, wait_exponential, retry_if_exception_type, stop_after_attempt
 from pathlib import Path
 from transformers import AutoConfig
 
 # Custom functions
-from utils_inteiroteor import textfrompdf, inference
+from utils_inteiroteor import textfrompdf, inference, NETWORK_ERRORS
 from utils_ementa import load_model_and_tokenizer, process_row_tema, process_row_posicao
 from utils_df_validation import validate_columns
 from data_paths import get_data_dir, get_log_dir, dataset_from_path, raw_path, classified_path, parse_args
@@ -187,9 +187,9 @@ if __name__ == "__main__":
 
                     try:
                         for attempt in Retrying(
-                            stop=stop_after_attempt(3),
-                            wait=wait_fixed(12),
-                            retry=retry_if_exception_type(replicate.exceptions.ReplicateError)
+                            stop=stop_after_attempt(5),
+                            wait=wait_exponential(multiplier=5, min=10, max=120),
+                            retry=retry_if_exception_type((replicate.exceptions.ReplicateError, *NETWORK_ERRORS))
                         ):
                             with attempt:
                                 return inference(text, API_TOKEN, MODEL)
@@ -210,6 +210,10 @@ if __name__ == "__main__":
                     save(result)
                     logger.info(f"LLM progress: {min(start + LLM_CHUNK_SIZE, len(pending))}/{len(pending)}")
 
+            if dataset == "camara" and API_TOKEN:
+                missing = int(result["posicao_llm"].isna().sum())
+                if missing:
+                    logger.warning(f"{missing} rows still without posicao_llm; run again to retry them")
             logger.info(f"Successfully processed {len(result)} rows into {output_file}")
 
     except Exception as e:
