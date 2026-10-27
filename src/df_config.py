@@ -32,7 +32,6 @@ COLUMNS = {
         "codTipoTramitacao",
         "uriAutores",
         "codSituacao",
-        "despacho",
         "url",
         "ambito",
         "apreciacao",
