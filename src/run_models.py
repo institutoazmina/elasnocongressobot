@@ -52,7 +52,7 @@ from transformers import AutoConfig
 
 # Custom functions
 from utils_inteiroteor import textfrompdf, inference, NETWORK_ERRORS
-from utils_ementa import load_model_and_tokenizer, process_row_tema, process_row_posicao
+from utils_ementa import MODEL_NAME_TEMA, MODEL_NAME_POSICAO, TOKENIZER_NAME, load_model_and_tokenizer, process_row_tema, process_row_posicao
 from utils_df_validation import validate_columns
 from data_paths import get_data_dir, get_log_dir, dataset_from_path, raw_path, classified_path, parse_args
 
@@ -91,9 +91,6 @@ logger.addHandler(error_handler)
 
 # Configuration
 DEVICE = 'cuda' if cuda.is_available() else 'cpu'
-MODEL_NAME_TEMA = "azmina/ia_feminista_tema"
-MODEL_NAME_POSICAO = "azmina/ia-feminista-bert-posicao"
-TOKENIZER_NAME = "neuralmind/bert-base-portuguese-cased"
 
 # Get env variables
 from dotenv import load_dotenv

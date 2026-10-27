@@ -15,6 +15,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+MODEL_NAME_TEMA = "azmina/ia_feminista_tema"
+MODEL_NAME_POSICAO = "azmina/ia-feminista-bert-posicao"
+TOKENIZER_NAME = "neuralmind/bert-base-portuguese-cased"
+
 
 def _get_ementa(row: Series) -> str:
     """Return the ementa text from 'ementa' (Câmara) or 'Ementa' (Senado); '' if missing/NaN."""

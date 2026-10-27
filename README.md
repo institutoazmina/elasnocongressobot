@@ -80,7 +80,12 @@ Além disso:
     ```
     docker compose up -d --build
     ```
-5. Execute o scraper:
+5. Baixe os modelos do Hugging Face para o volume `hugging_cache` (uma única vez por ambiente;
+   depois disso o contêiner roda em modo offline, `HF_HUB_OFFLINE=1`, e falha rápido se o cache estiver vazio):
+    ```
+    docker compose run --rm -e HF_HUB_OFFLINE=0 robo python3 src/prefetch_models.py
+    ```
+6. Execute o scraper:
     ```
     docker exec elasnacamera ./run.sh
     ```
