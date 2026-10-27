@@ -16,6 +16,15 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def _get_ementa(row: Series) -> str:
+    """Return the ementa text from 'ementa' (Câmara) or 'Ementa' (Senado); '' if missing/NaN."""
+    for key in ('ementa', 'Ementa'):
+        value = row.get(key)
+        if isinstance(value, str) and value:
+            return value
+    return ''
+
+
 def load_model_and_tokenizer(
     model_name: str,
     tokenizer_name: str,
@@ -65,8 +74,7 @@ def process_row_tema(
     Returns:
         Modified row with 'tema_1' and 'tema_2' columns added
     """
-    ementa = row.get('ementa') or row.get('Ementa', '')
-    ementa = ementa.lower()
+    ementa = _get_ementa(row).lower()
 
     # Rule-based classification
     matching_themes = [
@@ -114,7 +122,8 @@ def process_row_posicao(
     Returns:
         Modified row with 'classification' and 'probabilities' columns added
     """
-    ementa = row.get('ementa') or row.get('Ementa', '').lower()
+    ementa = _get_ementa(row)
+    # ementa = ementa.lower()  # tokenizer é cased; descomentar para usar lowercase (Câmara e Senado)
 
     tokens = tokenizer(ementa, truncation=True, max_length=512, return_tensors="pt")
     tokens = {key: value.to(device) for key, value in tokens.items()}
