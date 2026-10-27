@@ -1,12 +1,13 @@
 services:
-  elasnacamera:
-    # build: ./
-    image: src-and-data_elasnacamera:move
+  robo:
+    build: ./
+    image: src-and-data_elasnacamera:latest
     container_name: elasnacamera
     volumes:
       - ./:/usr/src/app/
       - ./logs:/logs
       - ./data:/data
+      - hugging_cache:/home/app/.cache/huggingface
     networks:
       - elasnacamera_network
     logging:
@@ -24,6 +25,9 @@ services:
     networks:
       - elasnacamera_network
     restart: unless-stopped
+
+volumes:
+  hugging_cache:
 
 networks:
     elasnacamera_network:
