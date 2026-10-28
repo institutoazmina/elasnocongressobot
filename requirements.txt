@@ -5,6 +5,10 @@ pandas==2.2.3
 python-dotenv==1.0.1
 redis==5.2.1
 scrapy==2.12.0
+# Dependências transitivas do scrapy 2.12.0 fixadas: versões mais novas removeram
+# símbolos privados que ele ainda importa (w3lib>=2.4 e Twisted>=26 quebram o import).
+w3lib==2.3.1
+Twisted==25.5.0
 torch==2.6.0
 transformers==4.48.0
 requests==2.32.3
